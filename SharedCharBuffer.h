@@ -13,8 +13,7 @@ class SharedCharBuffer {
 public:
     // attributes
     int size;
-    std::string src_proc_name;
-    std::string dst_proc_name;
+    std::string name;
 
     //methods
     bool IsEmpty();
@@ -26,7 +25,7 @@ public:
     int FreeTokens();
 
     //constructor and destructor
-    SharedCharBuffer(std::string src_proc_name, std::string dst_proc_name, int size);
+    SharedCharBuffer(std::string name, int size);
     ~SharedCharBuffer();
 
 private:

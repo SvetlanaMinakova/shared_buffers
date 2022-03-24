@@ -10,9 +10,8 @@
 #include <memory>
 #include "BufferException.h"
 
-SharedCharBuffer::SharedCharBuffer(std::string src_proc_name, std::string dst_proc_name, int size){
-    this->src_proc_name=std::move(src_proc_name);
-    this->dst_proc_name=std::move(dst_proc_name);
+SharedCharBuffer::SharedCharBuffer(std::string name, int size){
+    this->name=std::move(name);
     this->size=size;
     this->data = new char[size];
 }

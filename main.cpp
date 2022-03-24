@@ -59,7 +59,7 @@ void runProcessesInThreads(){
 
 void readAndWriteToSharedCharBuffer(){
     // Create new shared buffer
-    SharedCharBuffer sharedCharBuffer = SharedCharBuffer("Elfo", "Bean", 25);
+    SharedCharBuffer sharedCharBuffer = SharedCharBuffer("BUF", 25);
 
     // Write data
     char beer[] = {'B', 'e', 'e', 'r'};
