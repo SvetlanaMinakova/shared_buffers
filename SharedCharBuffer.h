@@ -8,12 +8,18 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include <shared_mutex>
 
 class SharedCharBuffer {
 public:
     // attributes
     int size;
     std::string name;
+    // mutex primitives from tutorial on
+    // https://riptutorial.com/cplusplus/example/30186/object-locking-for-efficient-access-
+    using mutex_type = std::shared_timed_mutex;
+    using reading_lock = std::shared_lock<mutex_type>;
+    using updates_lock = std::unique_lock<mutex_type>;
 
     //methods
     bool IsEmpty();
@@ -32,6 +38,7 @@ private:
     // number of currently stored data tokens
     int tokens = 0;
     char* data;
+    mutable mutex_type mtx; // mutable allows const objects to be locked
 };
 
 
