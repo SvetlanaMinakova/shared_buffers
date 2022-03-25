@@ -32,7 +32,7 @@ bool MyProcess::inputDataAvailable(){
             return false;
     }
     // once input data is available, notify thread
-    cv.notify_all();
+    //cv.notify_all();
     return true;
 }
 
@@ -42,7 +42,7 @@ bool MyProcess::outputDataAvailable(){
             return false;
     }
     // once output data is available, notify thread
-    cv.notify_all();
+    //cv.notify_all();
     return true;
 }
 
@@ -51,8 +51,9 @@ bool MyProcess::outputDataAvailable(){
 // Read, write, execute primitives
 void MyProcess::read(){
     //lock the process until all input data is available
-    auto procLock = lock_data_waiter();
-    cv.wait(procLock, inputDataAvailable());
+    while (!inputDataAvailable());
+    // auto procLock = lock_data_waiter();
+    // cv.wait(procLock, inputDataAvailable());
 
     for (auto bufPtr:inputBufferPtrs){
         // lock input buffer for reading
@@ -63,8 +64,9 @@ void MyProcess::read(){
 
 void MyProcess::write(){
     //lock the process until all output data is available
-    auto procLock = lock_data_waiter();
-    cv.wait(procLock, outputDataAvailable());
+    while (!outputDataAvailable());
+    // auto procLock = lock_data_waiter();
+    // cv.wait(procLock, outputDataAvailable());
 
     for (auto bufPtr:outputBufferPtrs){
         //lock output buffer for writing
