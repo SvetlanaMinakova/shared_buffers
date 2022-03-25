@@ -36,8 +36,13 @@ void SharedCharBuffer::Read(char* data_dst, int data_tokens, int start_token) {
 
     for (int i=0; i<data_tokens; i++) {
         data_dst[i] = this->data[start_token+i];
-
     }
+    this->tokens -= data_tokens;
+}
+
+void SharedCharBuffer::Read(int data_tokens, int start_token){
+    if ((start_token + data_tokens) >= size)
+        throw BufferException("Cannot read from buffer: out of boundaries!");
     this->tokens -= data_tokens;
 }
 
@@ -48,6 +53,12 @@ void SharedCharBuffer::Write(char* new_data, int data_tokens) {
     for (int i=0; i<data_tokens; i++) {
         this->data[tokens+i] = new_data[i];
     }
+    this->tokens += data_tokens;
+}
+
+void SharedCharBuffer::Write(int data_tokens) {
+    if (FreeTokens() < data_tokens)
+        throw BufferException("Cannot write to buffer: not enough free space!");
     this->tokens += data_tokens;
 }
 
