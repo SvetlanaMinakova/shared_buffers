@@ -66,7 +66,7 @@ void allocateBufferToOneProc(){
     // create process that writes to shared buffer
     MyProcess writer = MyProcess("Writer",10, 1, 2, 1);
 
-    // allocate shared buffer to processor
+    // allocate shared buffer to process
     writer.addOutputBufferPtr(&sharedCharBuffer);
     std::cout<<"Output buffers of process"<<writer.name<<std::endl;
     writer.printOutputBufferNames();
@@ -83,6 +83,48 @@ void allocateBufferToOneProc(){
 
     // join posix threads
     writer_thread.join();
+
+    // tokens in buffer
+    std::cout<<"Tokens in shared buffer: "<<sharedCharBuffer.StoredTokens()<<std::endl;
+
+    // delete pthread parameters
+    free(threadInfo);
+}
+
+void allocateBufferToTwoProc(){
+    // Create new shared buffer
+    SharedCharBuffer sharedCharBuffer = SharedCharBuffer("BUF", 25);
+    // tokens in buffer
+    std::cout<<"Tokens in shared buffer: "<<sharedCharBuffer.StoredTokens()<<std::endl;
+
+    // create process that writes to shared buffer
+    MyProcess writer = MyProcess("Writer",10, 2, 2, 1);
+    //create process that reads from shared buffer
+    MyProcess reader = MyProcess("Reader",5,1,1,4);
+
+    // allocate shared buffer to processes
+    writer.addOutputBufferPtr(&sharedCharBuffer);
+    reader.addInputBufferPtr(&sharedCharBuffer);
+    std::cout<<"Output buffers of process"<<writer.name<<std::endl;
+    writer.printOutputBufferNames();
+    std::cout<<"Input buffers of process"<<reader.name<<std::endl;
+    reader.printInputBufferNames();
+
+    // create pthread parameters
+    // allocate memory for pthread_create() arguments
+    int numThreads = 2;
+    auto *threadInfo = (struct ThreadInfo*)(calloc(numThreads, sizeof(struct ThreadInfo)));
+    //  allocate CPU cores to processes
+    threadInfo[0].core_id = 0;
+    threadInfo[1].core_id = 1;
+
+    // create and run posix threads
+    std::thread writer_thread(&MyProcess::main, &writer, &threadInfo[0]);
+    std::thread reader_thread(&MyProcess::main, &reader, &threadInfo[1]);
+
+    // join posix threads
+    writer_thread.join();
+    reader_thread.join();
 
     // tokens in buffer
     std::cout<<"Tokens in shared buffer: "<<sharedCharBuffer.StoredTokens()<<std::endl;
@@ -130,7 +172,8 @@ void readAndWriteToSharedCharBuffer(){
 /** Main */
 
 int main() {
-    allocateBufferToOneProc();
+    //allocateBufferToOneProc();
+    allocateBufferToTwoProc();
     // runProcessesInThreads();
     // readAndWriteToSharedCharBuffer();
     return 0;
