@@ -12,18 +12,33 @@
 #include <shared_mutex>
 
 // Constructor
-MyProcess::MyProcess(std::string name, int runs, int execDelay) {
+MyProcess::MyProcess(std::string name, int runs, int execDelay, int prodRate, int consRate) {
     this->name = std::move(name);
     this->runs = runs;
     this->execDelay = execDelay;
+    this->productionRate = prodRate;
+    this->consumptionRate = consRate;
 }
 
 // Manage I/O buffers
 void MyProcess::addInputBufferPtr(SharedCharBuffer* ptr){
     inputBufferPtrs.push_back(ptr);
 }
+
 void MyProcess::addOutputBufferPtr(SharedCharBuffer* ptr){
     outputBufferPtrs.push_back(ptr);
+}
+
+void MyProcess::printInputBufferNames(){
+    for (auto bufPtr:inputBufferPtrs){
+        std::cout<<bufPtr->name<<std::endl;
+    }
+}
+
+void MyProcess::printOutputBufferNames(){
+    for (auto bufPtr:outputBufferPtrs){
+        std::cout<<bufPtr->name<<std::endl;
+    }
 }
 
 bool MyProcess::inputDataAvailable(){
@@ -90,13 +105,13 @@ void MyProcess::main(void *vpar) {
     for(int run =0; run < runs; run++){
 
         //read input data
-        //read();
+        read();
 
         //execute process
         exec();
 
         //write output data
-        //write();
+        write();
     }
 }
 

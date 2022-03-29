@@ -57,6 +57,40 @@ void runProcessesInThreads(){
 
 }
 
+void allocateBufferToOneProc(){
+    // Create new shared buffer
+    SharedCharBuffer sharedCharBuffer = SharedCharBuffer("BUF", 25);
+    // tokens in buffer
+    std::cout<<"Tokens in shared buffer: "<<sharedCharBuffer.StoredTokens()<<std::endl;
+
+    // create process that writes to shared buffer
+    MyProcess writer = MyProcess("Writer",10, 1, 2, 1);
+
+    // allocate shared buffer to processor
+    writer.addOutputBufferPtr(&sharedCharBuffer);
+    std::cout<<"Output buffers of process"<<writer.name<<std::endl;
+    writer.printOutputBufferNames();
+
+    // create pthread parameters
+    // allocate memory for pthread_create() arguments
+    int numThreads = 1;
+    auto *threadInfo = (struct ThreadInfo*)(calloc(numThreads, sizeof(struct ThreadInfo)));
+    //  allocate CPU cores to processes
+    threadInfo[0].core_id = 0;
+
+    // create and run posix threads
+    std::thread writer_thread(&MyProcess::main, &writer, &threadInfo[0]);
+
+    // join posix threads
+    writer_thread.join();
+
+    // tokens in buffer
+    std::cout<<"Tokens in shared buffer: "<<sharedCharBuffer.StoredTokens()<<std::endl;
+
+    // delete pthread parameters
+    free(threadInfo);
+}
+
 void readAndWriteToSharedCharBuffer(){
     // Create new shared buffer
     SharedCharBuffer sharedCharBuffer = SharedCharBuffer("BUF", 25);
@@ -96,7 +130,8 @@ void readAndWriteToSharedCharBuffer(){
 /** Main */
 
 int main() {
-    runProcessesInThreads();
+    allocateBufferToOneProc();
+    // runProcessesInThreads();
     // readAndWriteToSharedCharBuffer();
     return 0;
 }

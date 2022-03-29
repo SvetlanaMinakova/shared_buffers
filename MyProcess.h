@@ -28,16 +28,18 @@ public:
 
     void addInputBufferPtr(SharedCharBuffer* ptr);
     void addOutputBufferPtr(SharedCharBuffer* ptr);
+    void printInputBufferNames();
+    void printOutputBufferNames();
     bool inputDataAvailable();
     bool outputDataAvailable();
-    int productionRate = 1;
-    int consumptionRate = 1;
+    int productionRate;
+    int consumptionRate;
 
     // main function executed in a thread
     void main(void *par);
 
     // constructor and destructor
-    explicit MyProcess(std::string name, int runs=1, int execTime=0);
+    explicit MyProcess(std::string name, int runs=1, int execDelay=0, int prodRate=1, int consRate=1);
 
 
     // This returns a scoped lock that is excluding to one
