@@ -8,7 +8,8 @@
 #include "../../MyProcess.h"
 
 class ANReceiver : public MyProcess{
-
+public:
+    bool inputDataAvailable() override;
 };
 
 

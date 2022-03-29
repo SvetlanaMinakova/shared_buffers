@@ -16,21 +16,22 @@ public:
 
     void SayHi() const;
 
-    void exec() const;
-    void read();
-    void write();
+    void delayExec() const;
+    virtual void exec() const;
+    virtual void read();
+    virtual void write();
 
     void addInputBufferPtr(SharedCharBuffer* ptr);
     void addOutputBufferPtr(SharedCharBuffer* ptr);
     void printInputBufferNames();
     void printOutputBufferNames();
-    bool inputDataAvailable();
-    bool outputDataAvailable();
+    virtual bool inputDataAvailable();
+    virtual bool outputDataAvailable();
     int productionRate;
     int consumptionRate;
 
     // main function executed in a thread
-    void main(void *par);
+    virtual void main(void *par);
 
     // constructor and destructor
     explicit MyProcess(std::string name, int runs=1, int execDelay=0, int prodRate=1, int consRate=1);

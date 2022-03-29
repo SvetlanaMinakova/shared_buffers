@@ -9,7 +9,6 @@
 #include "types.h"
 #include <chrono>
 #include <thread>
-#include <shared_mutex>
 
 // Constructor
 MyProcess::MyProcess(std::string name, int runs, int execDelay, int prodRate, int consRate) {
@@ -57,8 +56,6 @@ bool MyProcess::outputDataAvailable(){
     return true;
 }
 
-// cv.wait(lck,shipment_available);
-
 // Read, write, execute primitives
 void MyProcess::read(){
     //wait until all input data is available
@@ -86,9 +83,13 @@ void MyProcess::SayHi() const{
     std::cout<<"Hi, I am "<< this->name<<std::endl;
 }
 
-void MyProcess::exec() const{
+void MyProcess::delayExec() const{
     int execDelayMS = execDelay * 1000;
     std::this_thread::sleep_for(std::chrono::milliseconds(execDelayMS));
+}
+
+void MyProcess::exec() const{
+    delayExec();
     SayHi();
 }
 

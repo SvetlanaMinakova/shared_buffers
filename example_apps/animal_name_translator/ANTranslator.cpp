@@ -7,7 +7,6 @@
 #include <thread>
 
 int ANTranslator::run(){
-
     return 0;
 }
 
