@@ -4,6 +4,7 @@
 
 #include "ANTranslator.h"
 #include <iostream>
+#include <thread>
 
 int ANTranslator::run(){
 

@@ -46,8 +46,6 @@ bool MyProcess::inputDataAvailable(){
         if (bufPtr->StoredTokens() < consumptionRate)
             return false;
     }
-    // once input data is available, notify thread
-    //cv.notify_all();
     return true;
 }
 
@@ -56,8 +54,6 @@ bool MyProcess::outputDataAvailable(){
         if (bufPtr->FreeTokens() < productionRate)
             return false;
     }
-    // once output data is available, notify thread
-    //cv.notify_all();
     return true;
 }
 
@@ -65,10 +61,8 @@ bool MyProcess::outputDataAvailable(){
 
 // Read, write, execute primitives
 void MyProcess::read(){
-    //lock the process until all input data is available
+    //wait until all input data is available
     while (!inputDataAvailable());
-    // auto procLock = lock_data_waiter();
-    // cv.wait(procLock, inputDataAvailable());
 
     for (auto bufPtr:inputBufferPtrs){
         // lock input buffer for reading
@@ -78,10 +72,8 @@ void MyProcess::read(){
 }
 
 void MyProcess::write(){
-    //lock the process until all output data is available
+    //wait until all output data is available
     while (!outputDataAvailable());
-    // auto procLock = lock_data_waiter();
-    // cv.wait(procLock, outputDataAvailable());
 
     for (auto bufPtr:outputBufferPtrs){
         //lock output buffer for writing

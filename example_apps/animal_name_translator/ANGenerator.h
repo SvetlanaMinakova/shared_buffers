@@ -12,4 +12,5 @@ class ANGenerator: public MyProcess{
 };
 
 
+
 #endif //SHARED_BUFFERS_ANGENERATOR_H
