@@ -15,10 +15,12 @@ public:
     };
     bool inputDataAvailable() override;
     void read() override;
+    std::string translate(std::string animalName);
     void exec() override;
     void main(void *par) override;
 
 private:
+    std::string convertToString(char* a, int size);
     std::map<std::string, std::string> animalNames;
     std::string receivedAnimalName;
 };

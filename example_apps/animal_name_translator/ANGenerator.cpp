@@ -41,7 +41,7 @@ void ANGenerator::write(){
         auto lock = bufPtr->lock_for_updates();
 
         productionRate = int(generatedAnimalName.length());
-        std::cout<<"prod. rate: "<<productionRate<<std::endl;
+        //std::cout<<"prod. rate: "<<productionRate<<std::endl;
         char* currentAnimalNameAsArr = &generatedAnimalName[0];
         bufPtr->Write(currentAnimalNameAsArr,productionRate);
     }
