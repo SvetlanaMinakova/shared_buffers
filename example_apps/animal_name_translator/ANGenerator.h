@@ -11,14 +11,18 @@
 
 class ANGenerator: public MyProcess{
 public:
+    ANGenerator(const std::string& name, std::map<std::string, std::string>& animalNames, int runs=1, int execDelay=0, int prodRate=1, int consRate=1): MyProcess(name, runs,execDelay, prodRate, consRate){
+        this->animalNames=animalNames;
+    };
+    [[nodiscard]] std::string pickRandomAnimal();
     bool outputDataAvailable() override;
-    void read() override;
-    // void write() override;
-    void exec() const override;
+    void write() override;
+    void exec() override;
+    void main(void *par) override;
 
 private:
-    std::string currentAnimalName;
-
+    std::map<std::string, std::string> animalNames;
+    std::string generatedAnimalName;
 };
 
 

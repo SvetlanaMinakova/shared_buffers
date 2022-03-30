@@ -79,18 +79,18 @@ void MyProcess::write(){
     }
 }
 
-void MyProcess::SayHi() const{
+void MyProcess::sayHi() {
     std::cout<<"Hi, I am "<< this->name<<std::endl;
 }
 
-void MyProcess::delayExec() const{
+void MyProcess::delayExec() {
     int execDelayMS = execDelay * 1000;
     std::this_thread::sleep_for(std::chrono::milliseconds(execDelayMS));
 }
 
-void MyProcess::exec() const{
+void MyProcess::exec() {
     delayExec();
-    SayHi();
+    sayHi();
 }
 
 /** INFERENCE HERE **/

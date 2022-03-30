@@ -30,9 +30,9 @@ void SimpleExamples::printData(char* data, int tokens){
 
 void SimpleExamples::createProcesses(){
     MyProcess elfo = MyProcess("Elfo");
-    elfo.SayHi();
+    elfo.sayHi();
     MyProcess bean = MyProcess("Bean");
-    bean.SayHi();
+    bean.sayHi();
 }
 
 void SimpleExamples::runProcessesInThreads(){

@@ -16,6 +16,7 @@ int main() {
 
     // run ANTranslator example
     ANTranslator app = ANTranslator();
-    app.printAnimals();
+    // app.printAnimals();
+    app.run(2);
     return 0;
 }

@@ -14,10 +14,10 @@ public:
     int execDelay;
     int runs;
 
-    void SayHi() const;
+    void sayHi();
 
-    void delayExec() const;
-    virtual void exec() const;
+    void delayExec();
+    virtual void exec();
     virtual void read();
     virtual void write();
 

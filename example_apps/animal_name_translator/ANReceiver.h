@@ -6,10 +6,21 @@
 #define SHARED_BUFFERS_ANRECEIVER_H
 
 #include "../../MyProcess.h"
+#include<map>
 
 class ANReceiver : public MyProcess{
 public:
+    ANReceiver(const std::string& name, std::map<std::string, std::string>& animalNames, int runs=1, int execDelay=0, int prodRate=1, int consRate=1): MyProcess(name, runs,execDelay, prodRate, consRate){
+        this->animalNames=animalNames;
+    };
     bool inputDataAvailable() override;
+    void read() override;
+    void exec() override;
+    void main(void *par) override;
+
+private:
+    std::map<std::string, std::string> animalNames;
+    std::string receivedAnimalName;
 };
 
 

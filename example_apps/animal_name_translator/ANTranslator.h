@@ -7,13 +7,15 @@
 
 #include <map>
 #include <string>
-#include "AnimalNames.h"
 
 class ANTranslator {
 public:
-
-    int run();
-    static void printAnimals();
+    int run(int runs=2);
+    void printAnimals();
+    std::map<std::string, std::string> animalNames = {{"Cat", "Kat"},
+                                                            {"Dog", "Hond"},
+                                                            {"Fox","Vos"},
+                                                            {"Horse","Paard"}};
 };
 
 
