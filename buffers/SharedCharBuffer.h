@@ -17,6 +17,8 @@ class SharedCharBuffer {
      * */
 public:
     // attributes
+    // buffer size (in tokens), i.e., maximum amount of data
+    // elements that can be stored in buffers
     int size;
     std::string name;
     // mutex types aliases, given for code readability and maintainability

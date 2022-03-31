@@ -14,9 +14,14 @@ int main() {
     // SimpleExamples::runProcessesInThreads();
     // SimpleExamples::readAndWriteToSharedCharBuffer();
 
+    SimpleExamples::readAndWriteToDoubleSharedCharBuffer();
+
     // run ANTranslator example
+    /**
     ANTranslator app = ANTranslator();
     // app.printAnimals();
     app.run(2);
+    */
+
     return 0;
 }

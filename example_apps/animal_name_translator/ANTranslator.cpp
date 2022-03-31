@@ -5,7 +5,7 @@
 #include "ANTranslator.h"
 #include "ANGenerator.h"
 #include "ANReceiver.h"
-#include "../../SharedCharBuffer.h"
+#include "../../buffers/SharedCharBuffer.h"
 #include <iostream>
 #include <thread>
 #include "../../types.h"

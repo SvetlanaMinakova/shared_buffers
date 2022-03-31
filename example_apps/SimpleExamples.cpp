@@ -12,8 +12,9 @@
 #include <string>
 #include <thread>
 #include "../MyProcess.h"
-#include "../SharedCharBuffer.h"
+#include "../buffers/SharedCharBuffer.h"
 #include "../types.h"
+#include "../buffers/DoubleSharedCharBuffer.h"
 
 /*********************/
 /** Helper functions */
@@ -176,4 +177,33 @@ void SimpleExamples::readAndWriteToSharedCharBuffer(){
     sharedCharBuffer.Read(potatoe_receiver, potatoe_size, beer_size);
     printData(potatoe_receiver, potatoe_size);
     std::cout<<std::endl;
+}
+
+void SimpleExamples::readAndWriteToDoubleSharedCharBuffer() {
+    DoubleSharedCharBuffer dBuf = DoubleSharedCharBuffer("dBuf", 10);
+    // Test data
+    char beer[] = {'B', 'e', 'e', 'r'};
+    int beer_size = sizeof (beer);
+    char potatoe[] = {'P', 'o', 't', 'a', 't', 'o', 'e'};
+    int potatoe_size = sizeof(potatoe);
+
+    // Write data
+    std::cout<<"Write data"<<std::endl;
+    dBuf.Write(beer, beer_size);
+    dBuf.PrintData();
+    std::cout<<std::endl;
+
+    std::cout<<"Swap buffers"<<std::endl;
+    dBuf.Swap();
+    dBuf.PrintData();
+    std::cout<<std::endl;
+
+    // Write second portion of data
+    std::cout<<"Write data"<<std::endl;
+    dBuf.Write(potatoe, potatoe_size);
+    dBuf.PrintData();
+    std::cout<<std::endl;
+
+    // Read data
+
 }

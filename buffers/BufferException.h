@@ -13,10 +13,10 @@ struct BufferException: public std::exception {
 protected:
     const char* message = "BufferException";
 public:
-    BufferException(const char* message){
+    explicit BufferException(const char* message){
         this->message = message;
     }
-    const char * what () const noexcept override
+    [[nodiscard]] const char * what () const noexcept override
     {
         return message;
     }

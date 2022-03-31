@@ -8,11 +8,19 @@
 
 class SimpleExamples {
 public:
+    // MyProcess
     static void createProcesses();
     static void runProcessesInThreads();
+
+    // SharedCharBuffer
     static void allocateBufferToOneProc();
     static void allocateBufferToTwoProc();
     static void readAndWriteToSharedCharBuffer();
+
+    // DoubleSharedCharBuffer
+    static void readAndWriteToDoubleSharedCharBuffer();
+
+
 
 protected:
     static void printData(char* data, int tokens);

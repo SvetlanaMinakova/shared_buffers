@@ -5,7 +5,7 @@
 #ifndef SHARED_BUFFERS_MYPROCESS_H
 #define SHARED_BUFFERS_MYPROCESS_H
 #include <string>
-#include "SharedCharBuffer.h"
+#include "buffers/SharedCharBuffer.h"
 #include "vector"
 
 class MyProcess {
