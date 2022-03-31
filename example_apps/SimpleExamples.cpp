@@ -205,5 +205,19 @@ void SimpleExamples::readAndWriteToDoubleSharedCharBuffer() {
     std::cout<<std::endl;
 
     // Read data
+    std::cout<<"Read data"<<std::endl;
+    int readTokens = dBuf.OccupiedBottomTokens();
+    char tmp[readTokens];
+    dBuf.Read(tmp, readTokens);
+    dBuf.PrintData();
+    std::cout<<"Data extracted: ";
+    printData(tmp, readTokens);
+    std::cout<<std::endl;
+    std::cout<<std::endl;
+
+    std::cout<<"Swap buffers"<<std::endl;
+    dBuf.Swap();
+    dBuf.PrintData();
+    std::cout<<std::endl;
 
 }

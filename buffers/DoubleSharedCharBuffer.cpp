@@ -18,8 +18,12 @@ DoubleSharedCharBuffer::~DoubleSharedCharBuffer(){
     delete [] this->bottom;
 }
 
-int DoubleSharedCharBuffer::FreeTokens() {
+int DoubleSharedCharBuffer::FreeTopTokens() {
     return this->size - this->topTokens;
+}
+
+int DoubleSharedCharBuffer::OccupiedBottomTokens(){
+    return this->bottomTokens;
 }
 
 void DoubleSharedCharBuffer::Read(char* data_dst, int data_tokens, int start_token) {
@@ -39,7 +43,7 @@ void DoubleSharedCharBuffer::Read(int data_tokens, int start_token){
 }
 
 void DoubleSharedCharBuffer::Write(char* new_data, int data_tokens) {
-    if (FreeTokens() < data_tokens)
+    if (FreeTopTokens() < data_tokens)
         throw BufferException("Cannot write to buffer: not enough free space!");
 
     for (int i=0; i<data_tokens; i++) {
@@ -49,7 +53,7 @@ void DoubleSharedCharBuffer::Write(char* new_data, int data_tokens) {
 }
 
 void DoubleSharedCharBuffer::Write(int data_tokens) {
-    if (FreeTokens() < data_tokens)
+    if (FreeTopTokens() < data_tokens)
         throw BufferException("Cannot write to buffer: not enough free space!");
     this->topTokens += data_tokens;
 }

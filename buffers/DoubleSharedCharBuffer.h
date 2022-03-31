@@ -24,7 +24,8 @@ public:
     void Read(char* data_dst, int data_tokens, int start_token=0);
     void Write(char* new_data, int data_tokens);
     void Write(int data_tokens);
-    int FreeTokens();
+    int FreeTopTokens();
+    int OccupiedBottomTokens();
     void Swap(); // swap top and bottom
     void PrintData();
 
