@@ -46,15 +46,21 @@ public:
     void PrintData();
     int StoredTokens();
     int FreeTokens();
+    bool IsVisited();
+    void MarkAsVisited();
+    void MarkAsUnVisited();
 
     //constructor and destructor
+    SharedCharBuffer();
     SharedCharBuffer(std::string name, int size);
+    void init(std::string name, int size);
     ~SharedCharBuffer();
 
 private:
     // number of currently stored data tokens
     int tokens = 0;
     char* data;
+    bool visited = false;
     mutable mutex_type mtx; // mutable allows const objects to be locked
 };
 

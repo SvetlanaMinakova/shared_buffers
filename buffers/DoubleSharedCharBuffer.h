@@ -32,7 +32,9 @@ public:
     void Write(char* new_data, int data_tokens);
     void Write(int data_tokens);
     int FreeTopTokens();
-    int OccupiedBottomTokens();
+    int StoredBottomTokens();
+    bool IsTopEmpty();
+    bool IsBottomEmpty();
     void Swap(); // swap top and bottom
     void PrintData();
 
@@ -50,6 +52,11 @@ public:
     // constructor and destructor
     DoubleSharedCharBuffer(std::string name, int size);
     ~DoubleSharedCharBuffer();
+
+    // manual flags for swapping
+    // required for processes with dynamic production-consumption rates
+    bool topDataWritten = false;
+    bool bottomDataRead = false;
 
 private:
     // number of currently stored data tokens

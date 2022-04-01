@@ -15,6 +15,7 @@
 #include "../../buffers/SharedCharBuffer.h"
 #include "../../types.h"
 #include "../../buffers/DoubleSharedCharBuffer.h"
+#include "../../buffers/DoubleNestedCharBuffer.h"
 
 /*********************/
 /** Helper functions */
@@ -154,6 +155,7 @@ void SimpleExamples::readAndWriteToSharedCharBuffer(){
     std::cout<<"Write data"<<std::endl;
     sharedCharBuffer.Write(beer, beer_size);
     sharedCharBuffer.PrintData();
+    std::cout<<std::endl;
     std::cout<<"Tokens stored: "<<sharedCharBuffer.StoredTokens()<<std::endl;
     std::cout<<"Free space (tokens): "<<sharedCharBuffer.FreeTokens()<<std::endl;
 
@@ -161,6 +163,7 @@ void SimpleExamples::readAndWriteToSharedCharBuffer(){
     int potatoe_size = sizeof(potatoe);
     sharedCharBuffer.Write(potatoe, potatoe_size);
     sharedCharBuffer.PrintData();
+    std::cout<<std::endl;
     std::cout<<"Tokens stored: "<<sharedCharBuffer.StoredTokens()<<std::endl;
     std::cout<<"Free space (tokens): "<<sharedCharBuffer.FreeTokens()<<std::endl;
     std::cout<<std::endl;
@@ -206,7 +209,7 @@ void SimpleExamples::readAndWriteToDoubleSharedCharBuffer() {
 
     // Read data
     std::cout<<"Read data"<<std::endl;
-    int readTokens = dBuf.OccupiedBottomTokens();
+    int readTokens = dBuf.StoredBottomTokens();
     char tmp[readTokens];
     dBuf.Read(tmp, readTokens);
     dBuf.PrintData();
@@ -219,5 +222,50 @@ void SimpleExamples::readAndWriteToDoubleSharedCharBuffer() {
     dBuf.Swap();
     dBuf.PrintData();
     std::cout<<std::endl;
+}
 
+void SimpleExamples::readAndWriteToDoubleNestedCharBuffer() {
+    DoubleNestedCharBuffer dBuf = DoubleNestedCharBuffer("dBuf", 10);
+    // Test data
+    char beer[] = {'B', 'e', 'e', 'r'};
+    int beer_size = sizeof (beer);
+    char potatoe[] = {'P', 'o', 't', 'a', 't', 'o', 'e'};
+    int potatoe_size = sizeof(potatoe);
+
+    // Write data
+    std::cout<<"Write data"<<std::endl;
+    dBuf.Write(beer, beer_size);
+    dBuf.PrintData();
+    std::cout<<std::endl;
+
+    std::cout<<"Swap buffers"<<std::endl;
+    dBuf.Swap();
+    dBuf.PrintData();
+    std::cout<<std::endl;
+
+    // Write second portion of data
+    std::cout<<"Write data"<<std::endl;
+    dBuf.Write(potatoe, potatoe_size);
+    dBuf.PrintData();
+    std::cout<<std::endl;
+
+    // Read data
+    std::cout<<"Read data"<<std::endl;
+    int readTokens = dBuf.StoredBottomTokens();
+    char tmp[readTokens];
+    dBuf.Read(tmp, readTokens);
+    dBuf.PrintData();
+    std::cout<<std::endl;
+    std::cout<<"Data extracted: ";
+    printData(tmp, readTokens);
+    std::cout<<std::endl;
+
+    std::cout<<"Swap buffers"<<std::endl;
+    dBuf.Swap();
+    dBuf.PrintData();
+    std::cout<<std::endl;
+}
+
+void SimpleExamples::createEmptySharedCharBuffer(){
+    SharedCharBuffer buf = SharedCharBuffer();
 }

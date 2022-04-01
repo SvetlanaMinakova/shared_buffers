@@ -4,6 +4,11 @@
 
 #include "ANGeneratorSB.h"
 
+/**
+ * Check whether output data buffers are available for writing
+ * output data buffers are available when they are empty
+ * @return true, if output data buffers are available and false otherwise
+ * */
 bool ANGeneratorSB::outputDataAvailable(){
     for (auto bufPtr:outputBufferPtrs){
         if (!bufPtr->IsEmpty())

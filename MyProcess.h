@@ -21,8 +21,8 @@ public:
     virtual void read();
     virtual void write();
 
-    void addInputBufferPtr(SharedCharBuffer* ptr);
-    void addOutputBufferPtr(SharedCharBuffer* ptr);
+    virtual void addInputBufferPtr(SharedCharBuffer* ptr);
+    virtual void addOutputBufferPtr(SharedCharBuffer* ptr);
     void printInputBufferNames();
     void printOutputBufferNames();
     virtual bool inputDataAvailable();

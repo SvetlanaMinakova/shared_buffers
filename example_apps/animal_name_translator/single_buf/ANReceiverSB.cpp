@@ -3,10 +3,15 @@
 //
 
 #include "ANReceiverSB.h"
-
+/**
+ * Check whether input data is available
+ * input data is available when there is data stored in the buffer
+ * @return true, if input data is available and false otherwise
+ * */
 bool ANReceiverSB::inputDataAvailable(){
     for (auto bufPtr:inputBufferPtrs){
         if (bufPtr->IsEmpty())
+        // if (bufPtr->StoredTokens()<consumptionRate) //this check would require pre-determined or constant consumption rate
             return false;
     }
     return true;

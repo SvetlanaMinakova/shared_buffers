@@ -22,8 +22,16 @@ int DoubleSharedCharBuffer::FreeTopTokens() {
     return this->size - this->topTokens;
 }
 
-int DoubleSharedCharBuffer::OccupiedBottomTokens(){
+int DoubleSharedCharBuffer::StoredBottomTokens(){
     return this->bottomTokens;
+}
+
+bool DoubleSharedCharBuffer::IsTopEmpty() {
+    return topTokens==0;
+}
+
+bool DoubleSharedCharBuffer::IsBottomEmpty() {
+    return bottomTokens==0;
 }
 
 void DoubleSharedCharBuffer::Read(char* data_dst, int data_tokens, int start_token) {

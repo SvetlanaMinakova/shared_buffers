@@ -16,6 +16,21 @@ SharedCharBuffer::SharedCharBuffer(std::string name, int size){
     this->data = new char[size];
 }
 
+// required for DoubleNestedCharBuffer
+SharedCharBuffer::SharedCharBuffer() {
+    this->name = "none";
+    this->size = 0;
+    this->data = nullptr;
+}
+
+// for post-initializing of SharedCharBuffer with empty constructor
+void SharedCharBuffer::init(std::string name, int size) {
+    this->name=std::move(name);
+    this->size=size;
+    delete [] this->data;
+    this->data = new char[size];
+}
+
 SharedCharBuffer::~SharedCharBuffer(){
     delete [] this->data;
 }
@@ -75,5 +90,20 @@ void SharedCharBuffer::PrintData(){
         char elem = data[i];
         std::cout << elem;
     }
-    std::cout<<std::endl;
+    //std::cout<<std::endl;
 }
+
+void SharedCharBuffer::MarkAsVisited() {
+    visited = true;
+}
+
+void SharedCharBuffer::MarkAsUnVisited() {
+    visited = false;
+}
+
+bool SharedCharBuffer::IsVisited() {
+    return visited;
+}
+
+
+
