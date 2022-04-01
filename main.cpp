@@ -2,7 +2,7 @@
 #include <string>
 #include "types.h"
 #include "example_apps/SimpleExamples.h"
-#include "example_apps/animal_name_translator/ANTranslator.h"
+#include "example_apps/animal_name_translator/single_buf/ANTranslatorSB.h"
 
 /*********************/
 /** Main */
@@ -14,14 +14,14 @@ int main() {
     // SimpleExamples::runProcessesInThreads();
     // SimpleExamples::readAndWriteToSharedCharBuffer();
 
-    SimpleExamples::readAndWriteToDoubleSharedCharBuffer();
+    //SimpleExamples::readAndWriteToDoubleSharedCharBuffer();
 
     // run ANTranslator example
-    /**
-    ANTranslator app = ANTranslator();
+
+    ANTranslatorSB app = ANTranslatorSB();
     // app.printAnimals();
     app.run(2);
-    */
+
 
     return 0;
 }

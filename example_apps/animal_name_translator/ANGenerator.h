@@ -15,12 +15,10 @@ public:
         this->animalNames=animalNames;
     };
     [[nodiscard]] std::string pickRandomAnimal();
-    bool outputDataAvailable() override;
-    void write() override;
     void exec() override;
     void main(void *par) override;
 
-private:
+protected:
     std::map<std::string, std::string> animalNames;
     std::string generatedAnimalName;
 };

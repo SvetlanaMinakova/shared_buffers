@@ -26,7 +26,7 @@ public:
     using reading_lock = std::shared_lock<mutex_type>;
     using updates_lock = std::unique_lock<mutex_type>;
 
-    //methods
+    // synchronization (mutexes)
     // This returns a scoped lock that can be shared by multiple
     // readers at the same time while excluding any writers
     [[nodiscard]]

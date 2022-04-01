@@ -5,14 +5,6 @@
 #include "ANReceiver.h"
 #include <iostream>
 #include <map>
-bool ANReceiver::inputDataAvailable(){
-    for (auto bufPtr:inputBufferPtrs){
-        if (bufPtr->IsEmpty())
-            return false;
-    }
-    return true;
-}
-
 // converts character array
 // to string and returns it
 std::string ANReceiver::convertToString(char* a, int size)
@@ -23,22 +15,6 @@ std::string ANReceiver::convertToString(char* a, int size)
         s += a[i];
     }
     return s;
-}
-
-// Read, write, execute primitives
-void ANReceiver::read(){
-    //wait until all input data is available
-    while (!inputDataAvailable());
-
-    for (auto bufPtr:inputBufferPtrs){
-        // lock input buffer for reading
-        auto bufLock = bufPtr->lock_for_reading();
-        consumptionRate = bufPtr->StoredTokens();
-        // std::cout<<"cons. rate: "<<consumptionRate<<std::endl;
-        char tmpBuf[consumptionRate];
-        bufPtr->Read(tmpBuf,consumptionRate);
-        receivedAnimalName = convertToString(tmpBuf, consumptionRate);
-    }
 }
 
 std::string ANReceiver::translate(std::string animalName){
