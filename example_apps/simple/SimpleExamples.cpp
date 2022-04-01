@@ -11,10 +11,10 @@
 #include <iostream>
 #include <string>
 #include <thread>
-#include "../MyProcess.h"
-#include "../buffers/SharedCharBuffer.h"
-#include "../types.h"
-#include "../buffers/DoubleSharedCharBuffer.h"
+#include "../../MyProcess.h"
+#include "../../buffers/SharedCharBuffer.h"
+#include "../../types.h"
+#include "../../buffers/DoubleSharedCharBuffer.h"
 
 /*********************/
 /** Helper functions */

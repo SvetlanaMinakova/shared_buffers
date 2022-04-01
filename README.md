@@ -10,7 +10,7 @@ In my project I use my own implementation of process (see *MyProcess class*). Th
 
 I also use custom implementations of buffers (see ./buffers folder). Currently, following types of buffers are implemented:
 * *SharedCharBuffer*: a simple shared buffer, where data is an array of characters.
-* *SharedCharDoubleBuffer* a [double-buffer] (https://en.wikipedia.org/wiki/Multiple_buffering) version of the *SharedCharBuffer* 
+* *SharedCharDoubleBuffer* a [double-buffer] (https://en.wikipedia.org/wiki/Multiple_buffering) version of the *SharedCharBuffer*
 
 My project has several illustrative examples, located in  *../example_apps*.
 
