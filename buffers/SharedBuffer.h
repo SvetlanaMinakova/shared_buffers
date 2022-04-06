@@ -11,6 +11,10 @@
 #include <shared_mutex>
 
 class SharedBuffer {
+/**A char buffer that can by used by multiple processes
+ * The buffer uses lock mechanism as proposed in
+ * // https://riptutorial.com/cplusplus/example/30186/object-locking-for-efficient-access-
+ * */
 public:
     // attributes
     // buffer size (in tokens), i.e., maximum amount of data
