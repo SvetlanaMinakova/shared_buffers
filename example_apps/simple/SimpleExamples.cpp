@@ -15,6 +15,7 @@
 #include "../../buffers/SharedCharBuffer.h"
 #include "../../types.h"
 #include "../../buffers/DoubleSharedCharBuffer.h"
+#include "../../buffers/SharedBufferT.h"
 
 /*********************/
 /** Helper functions */
@@ -147,6 +148,43 @@ void SimpleExamples::allocateBufferToTwoProc(){
 void SimpleExamples::readAndWriteToSharedCharBuffer(){
     // Create new shared buffer
     SharedCharBuffer sharedCharBuffer = SharedCharBuffer("BUF", 25);
+
+    // write data
+    char beer[] = {'B', 'e', 'e', 'r'};
+    int beer_size = sizeof (beer);
+    std::cout<<"write data"<<std::endl;
+    sharedCharBuffer.Write(beer, beer_size);
+    sharedCharBuffer.PrintData();
+    std::cout<<std::endl;
+    std::cout<<"Tokens stored: "<<sharedCharBuffer.StoredTokens()<<std::endl;
+    std::cout<<"Free space (tokens): "<<sharedCharBuffer.FreeTokens()<<std::endl;
+
+    char potatoe[] = {'P', 'o', 't', 'a', 't', 'o', 'e'};
+    int potatoe_size = sizeof(potatoe);
+    sharedCharBuffer.Write(potatoe, potatoe_size);
+    sharedCharBuffer.PrintData();
+    std::cout<<std::endl;
+    std::cout<<"Tokens stored: "<<sharedCharBuffer.StoredTokens()<<std::endl;
+    std::cout<<"Free space (tokens): "<<sharedCharBuffer.FreeTokens()<<std::endl;
+    std::cout<<std::endl;
+
+    // read data
+    char beer_receiver[beer_size];
+    std::cout<<"read data. Start: 0, tokens: "<<beer_size<<std::endl;
+    sharedCharBuffer.Read(beer_receiver, beer_size);
+    printData(beer_receiver, beer_size);
+    std::cout<<std::endl;
+
+    char potatoe_receiver[potatoe_size];
+    std::cout<<"read data. Start: "<<beer_size<<", tokens: "<<potatoe_size<<std::endl;
+    sharedCharBuffer.Read(potatoe_receiver, potatoe_size, beer_size);
+    printData(potatoe_receiver, potatoe_size);
+    std::cout<<std::endl;
+}
+
+void SimpleExamples::readAndWriteToSharedTemplateBufferChar(){
+    // Create new shared buffer
+    SharedBufferT<char> sharedCharBuffer = SharedBufferT<char>("BUF", 25);
 
     // write data
     char beer[] = {'B', 'e', 'e', 'r'};

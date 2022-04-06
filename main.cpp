@@ -17,6 +17,7 @@ int main() {
     // SimpleExamples::readAndWriteToSharedCharBuffer();
     // SimpleExamples::createEmptySharedCharBuffer();
     // SimpleExamples::readAndWriteToDoubleNestedCharBuffer();
+    SimpleExamples::readAndWriteToSharedTemplateBufferChar();
 
     // ************************
     // run ANTranslator example
@@ -39,7 +40,7 @@ int main() {
      */
 
     // comparison
-    ANComparison::compareTimeSingleAndDoubleBuf(runs, execDelayS, rwDelayS);
+    // ANComparison::compareTimeSingleAndDoubleBuf(runs, execDelayS, rwDelayS);
 
     return 0;
 }

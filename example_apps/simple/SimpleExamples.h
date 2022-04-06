@@ -16,10 +16,8 @@ public:
     static void allocateBufferToOneProc();
     static void allocateBufferToTwoProc();
     static void readAndWriteToSharedCharBuffer();
+    static void readAndWriteToSharedTemplateBufferChar();
     static void createEmptySharedCharBuffer();
-
-    // DoubleSharedCharBuffer
-    static void readAndWriteToDoubleSharedCharBuffer();
     //DoubleSharedCharBuffer
     static void readAndWriteToDoubleNestedCharBuffer();
 
