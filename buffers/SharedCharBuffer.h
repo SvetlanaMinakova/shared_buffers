@@ -9,59 +9,31 @@
 #include <memory>
 #include <vector>
 #include <shared_mutex>
+#include "SharedBuffer.h"
 
-class SharedCharBuffer {
+class SharedCharBuffer: public SharedBuffer{
     /**A char buffer that can by used by multiple processes
      * The buffer uses lock mechanism as proposed in
      * // https://riptutorial.com/cplusplus/example/30186/object-locking-for-efficient-access-
      * */
 public:
-    // attributes
-    // buffer size (in tokens), i.e., maximum amount of data
-    // elements that can be stored in buffers
-    int size;
-    std::string name;
-    // mutex types aliases, given for code readability and maintainability
-    using mutex_type = std::shared_timed_mutex;
-    using reading_lock = std::shared_lock<mutex_type>;
-    using updates_lock = std::unique_lock<mutex_type>;
-
-    // synchronization (mutexes)
-    // This returns a scoped lock that can be shared by multiple
-    // readers at the same time while excluding any writers
-    [[nodiscard]]
-    reading_lock lock_for_reading() const { return reading_lock(mtx); }
-
-    // This returns a scoped lock that is excluding to one
-    // writer preventing any readers
-    [[nodiscard]]
-    updates_lock lock_for_updates() { return updates_lock(mtx); }
-
-    bool IsEmpty();
-    bool IsFull();
-    void Read(int data_tokens, int start_token=0);
     void Read(char* data_dst, int data_tokens, int start_token=0);
     void Write(char* new_data, int data_tokens);
-    void Write(int data_tokens);
-    void PrintData();
-    int StoredTokens();
-    int FreeTokens();
-    bool IsVisited();
-    void MarkAsVisited();
-    void MarkAsUnVisited();
+    void PrintData() override;
 
     //constructor and destructor
-    SharedCharBuffer();
-    SharedCharBuffer(std::string name, int size);
-    void init(std::string name, int size);
+    // required for DoubleSharedCharBuffer
+    SharedCharBuffer(): SharedBuffer(){
+        this->data = nullptr;
+    };
+    SharedCharBuffer(std::string name, int size): SharedBuffer(name, size){
+        this->data = new char[size];
+    }
+    void init(std::string name, int size) override;
     ~SharedCharBuffer();
 
-private:
-    // number of currently stored data tokens
-    int tokens = 0;
+protected:
     char* data;
-    bool visited = false;
-    mutable mutex_type mtx; // mutable allows const objects to be locked
 };
 
 

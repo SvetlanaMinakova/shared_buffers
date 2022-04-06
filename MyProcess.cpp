@@ -67,7 +67,7 @@ void MyProcess::read(){
         auto bufLock = bufPtr->lock_for_reading();
         // delay reading
         delay(rwDelay*1000);
-        bufPtr->Read(consumptionRate);
+        bufPtr->ReadSim(consumptionRate);
     }
 }
 
@@ -80,7 +80,7 @@ void MyProcess::write(){
         auto lock = bufPtr->lock_for_updates();
         // delay writing
         delay(rwDelay*1000);
-        bufPtr->Write(productionRate);
+        bufPtr->WriteSim(productionRate);
     }
 }
 
