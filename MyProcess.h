@@ -5,7 +5,7 @@
 #ifndef SHARED_BUFFERS_MYPROCESS_H
 #define SHARED_BUFFERS_MYPROCESS_H
 #include <string>
-#include "buffers/SharedBufferT.h"
+#include "buffers/SingleSharedBuffer.h"
 #include "vector"
 #include <utility>
 #include <iostream>
@@ -28,8 +28,8 @@ public:
     virtual void read();
     virtual void write();
 
-    virtual void addInputBufferPtr(SharedBufferT<T>* ptr);
-    virtual void addOutputBufferPtr(SharedBufferT<T>* ptr);
+    virtual void addInputBufferPtr(SingleSharedBuffer<T>* ptr);
+    virtual void addOutputBufferPtr(SingleSharedBuffer<T>* ptr);
     void printInputBufferNames();
     void printOutputBufferNames();
     virtual bool inputDataAvailable();
@@ -44,8 +44,8 @@ public:
     explicit MyProcess(std::string name, int runs=1, int execDelay=0, int rwDelay=0, int prodRate=1, int consRate=1);
 
 protected:
-    std::vector<SharedBufferT<T>*> inputBufferPtrs;
-    std::vector<SharedBufferT<T>*> outputBufferPtrs;
+    std::vector<SingleSharedBuffer<T>*> inputBufferPtrs;
+    std::vector<SingleSharedBuffer<T>*> outputBufferPtrs;
 };
 
 
@@ -62,12 +62,12 @@ MyProcess<T>::MyProcess(std::string name, int runs, int execDelay, int rwDelay, 
 
 // Manage I/O buffers
 template<class T>
-void MyProcess<T>::addInputBufferPtr(SharedBufferT<T>* ptr){
+void MyProcess<T>::addInputBufferPtr(SingleSharedBuffer<T>* ptr){
     inputBufferPtrs.push_back(ptr);
 }
 
 template<class T>
-void MyProcess<T>::addOutputBufferPtr(SharedBufferT<T>* ptr){
+void MyProcess<T>::addOutputBufferPtr(SingleSharedBuffer<T>* ptr){
     outputBufferPtrs.push_back(ptr);
 }
 

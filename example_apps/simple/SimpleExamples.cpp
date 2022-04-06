@@ -13,8 +13,8 @@
 #include <thread>
 #include "../../MyProcess.h"
 #include "../../types.h"
-#include "../../buffers/DoubleSharedBufferT.h"
-#include "../../buffers/SharedBufferT.h"
+#include "../../buffers/DoubleSharedBuffer.h"
+#include "../../buffers/SingleSharedBuffer.h"
 
 /*********************/
 /** Helper functions */
@@ -70,7 +70,7 @@ void SimpleExamples::runProcessesInThreads(){
 
 void SimpleExamples::allocateBufferToOneProc(){
     // Create new shared buffer
-    SharedBufferT<char> sharedCharBuffer = SharedBufferT<char>("BUF", 25);
+    SingleSharedBuffer<char> sharedCharBuffer = SingleSharedBuffer<char>("BUF", 25);
     // tokens in buffer
     std::cout<<"Tokens in shared buffer: "<<sharedCharBuffer.StoredTokens()<<std::endl;
 
@@ -104,7 +104,7 @@ void SimpleExamples::allocateBufferToOneProc(){
 
 void SimpleExamples::allocateBufferToTwoProc(){
     // Create new shared buffer
-    SharedBufferT<char> sharedCharBuffer = SharedBufferT<char>("BUF", 25);
+    SingleSharedBuffer<char> sharedCharBuffer = SingleSharedBuffer<char>("BUF", 25);
     // tokens in buffer
     std::cout<<"Tokens in shared buffer: "<<sharedCharBuffer.StoredTokens()<<std::endl;
 
@@ -146,7 +146,7 @@ void SimpleExamples::allocateBufferToTwoProc(){
 
 void SimpleExamples::readAndWriteToSharedTemplateBufferChar(){
     // Create new shared buffer
-    SharedBufferT<char> sharedCharBuffer = SharedBufferT<char>("BUF", 25);
+    SingleSharedBuffer<char> sharedCharBuffer = SingleSharedBuffer<char>("BUF", 25);
 
     // write data
     char beer[] = {'B', 'e', 'e', 'r'};
@@ -182,7 +182,7 @@ void SimpleExamples::readAndWriteToSharedTemplateBufferChar(){
 }
 
 void SimpleExamples::readAndWriteToDoubleNestedCharBuffer() {
-    DoubleSharedBufferT<char> dBuf = DoubleSharedBufferT<char>("dBuf", 10);
+    DoubleSharedBuffer<char> dBuf = DoubleSharedBuffer<char>("dBuf", 10);
     // Test data
     char beer[] = {'B', 'e', 'e', 'r'};
     int beer_size = sizeof (beer);

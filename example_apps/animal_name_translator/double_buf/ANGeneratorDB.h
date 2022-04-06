@@ -6,7 +6,7 @@
 #define SHARED_BUFFERS_ANGENERATORDB_H
 
 #include "../ANGenerator.h"
-#include "../../../buffers/DoubleSharedBufferT.h"
+#include "../../../buffers/DoubleSharedBuffer.h"
 
 class ANGeneratorDB: public ANGenerator{
 public:
@@ -15,12 +15,12 @@ public:
     bool outputDataAvailable() override;
     void write() override;
     void SwapReadyOutputBuffers();
-    void addInputBufferPtr(DoubleSharedBufferT<char>* ptr);
-    void addOutputBufferPtr(DoubleSharedBufferT<char>* ptr);
+    void addInputBufferPtr(DoubleSharedBuffer<char>* ptr);
+    void addOutputBufferPtr(DoubleSharedBuffer<char>* ptr);
 
 protected:
-    std::vector<DoubleSharedBufferT<char>*> inputBufferPtrs;
-    std::vector<DoubleSharedBufferT<char>*> outputBufferPtrs;
+    std::vector<DoubleSharedBuffer<char>*> inputBufferPtrs;
+    std::vector<DoubleSharedBuffer<char>*> outputBufferPtrs;
 };
 
 

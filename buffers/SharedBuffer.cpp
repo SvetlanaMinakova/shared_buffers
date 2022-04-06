@@ -10,7 +10,7 @@ SharedBuffer::SharedBuffer(std::string name, int size){
     this->size=size;
 }
 
-// required for DoubleSharedBufferT
+// required for DoubleSharedBuffer
 SharedBuffer::SharedBuffer() {
     this->name = "none";
     this->size = 0;

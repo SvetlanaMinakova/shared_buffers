@@ -38,7 +38,10 @@ int main() {
      */
 
     // comparison
-    ANComparison::compareTimeSingleAndDoubleBuf(runs, execDelayS, rwDelayS);
+    //ANComparison::compareTimeSingleAndDoubleBuf(runs, execDelayS, rwDelayS);
+
+    // ************************
+    // run convolution example
 
     return 0;
 }

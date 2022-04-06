@@ -5,7 +5,7 @@
 #include "ANTranslatorDB.h"
 #include "ANGeneratorDB.h"
 #include "ANReceiverDB.h"
-#include "../../../buffers/DoubleSharedBufferT.h"
+#include "../../../buffers/DoubleSharedBuffer.h"
 #include <iostream>
 #include <thread>
 #include "../../../types.h"
@@ -15,7 +15,7 @@ int ANTranslatorDB::run(int runs, int execDelay, int rwDelay) {
     ANGeneratorDB generator = ANGeneratorDB("generator", animalNames, runs, execDelay, rwDelay);
     ANReceiverDB receiver = ANReceiverDB("receiver", animalNames, runs, execDelay, rwDelay);
     // create and assign shared buffer
-    DoubleSharedBufferT<char> sharedBuffer = DoubleSharedBufferT<char>("buffer", 10);
+    DoubleSharedBuffer<char> sharedBuffer = DoubleSharedBuffer<char>("buffer", 10);
     // needed to perform the first swap, when swap condition = top is visited and bottom is visited
     sharedBuffer.setBottomVisited();
     generator.addOutputBufferPtr(&sharedBuffer);

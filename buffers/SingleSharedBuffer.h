@@ -2,14 +2,14 @@
 // Created by svetlana on 06/04/2022.
 //
 
-#ifndef SHARED_BUFFERS_SHAREDBUFFERT_H
-#define SHARED_BUFFERS_SHAREDBUFFERT_H
+#ifndef SHARED_BUFFERS_SINGLESHAREDBUFFER_H
+#define SHARED_BUFFERS_SINGLESHAREDBUFFER_H
 
 #include "SharedBuffer.h"
 #include "BufferException.h"
 
 template <class T>
-class SharedBufferT: public SharedBuffer{
+class SingleSharedBuffer: public SharedBuffer{
 public:
     // Typed methods
     void Read(T* data_dst, int data_tokens, int start_token=0);
@@ -17,13 +17,13 @@ public:
     void PrintData() override;
 
     // constructor and destructor
-    SharedBufferT(): SharedBuffer(){
+    SingleSharedBuffer(): SharedBuffer(){
         this->data = nullptr;
     };
-    SharedBufferT(std::string name, int size): SharedBuffer(name, size){
+    SingleSharedBuffer(std::string name, int size): SharedBuffer(name, size){
         this->data = new T[size];
     }
-    ~SharedBufferT();
+    ~SingleSharedBuffer();
     void init(std::string name, int size) override;
 
 protected:
@@ -31,18 +31,18 @@ protected:
 };
 
 template<class T>
-void SharedBufferT<T>::init(std::string name, int size) {
+void SingleSharedBuffer<T>::init(std::string name, int size) {
     SharedBuffer::init(name, size);
     this->data = new T[size];
 }
 
 template<class T>
-SharedBufferT<T>::~SharedBufferT() {
+SingleSharedBuffer<T>::~SingleSharedBuffer() {
     delete [] this->data;
 }
 
 template<class T>
-void SharedBufferT<T>::Read(T *data_dst, int data_tokens, int start_token) {
+void SingleSharedBuffer<T>::Read(T *data_dst, int data_tokens, int start_token) {
     if ((start_token + data_tokens) >= size)
         throw BufferException("Cannot read from buffer: out of boundaries!");
 
@@ -53,7 +53,7 @@ void SharedBufferT<T>::Read(T *data_dst, int data_tokens, int start_token) {
 }
 
 template<class T>
-void SharedBufferT<T>::Write(T *new_data, int data_tokens) {
+void SingleSharedBuffer<T>::Write(T *new_data, int data_tokens) {
     if (FreeTokens() < data_tokens)
         throw BufferException("Cannot write to buffer: not enough free space!");
 
@@ -64,7 +64,7 @@ void SharedBufferT<T>::Write(T *new_data, int data_tokens) {
 }
 
 template<class T>
-void SharedBufferT<T>::PrintData() {
+void SingleSharedBuffer<T>::PrintData() {
     for (int i=0;i<this->tokens;i++){
         char elem = data[i];
         std::cout << elem;
@@ -72,4 +72,4 @@ void SharedBufferT<T>::PrintData() {
 }
 
 
-#endif //SHARED_BUFFERS_SHAREDBUFFERT_H
+#endif //SHARED_BUFFERS_SINGLESHAREDBUFFER_H

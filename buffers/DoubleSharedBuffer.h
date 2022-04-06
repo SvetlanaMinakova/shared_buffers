@@ -2,18 +2,18 @@
 // Created by svetlana on 01/04/2022.
 //
 
-#ifndef SHARED_BUFFERS_DOUBLESHAREDBUFFERT_H
-#define SHARED_BUFFERS_DOUBLESHAREDBUFFERT_H
+#ifndef SHARED_BUFFERS_DOUBLESHAREDBUFFER_H
+#define SHARED_BUFFERS_DOUBLESHAREDBUFFER_H
 
 #include <string>
 #include <memory>
 #include <vector>
 #include <shared_mutex>
 #include "SharedBuffer.h"
-#include "SharedBufferT.h"
+#include "SingleSharedBuffer.h"
 #include <iostream>
 /**
- * DoubleSharedBufferT is a shared char* buffer,
+ * DoubleSharedBuffer is a shared char* buffer,
  * which consists of two halves: a top half, and a bottom half
  * the top half is used for writing by the source process,
  * while the bottom part is (possibly simultaneously) used
@@ -22,9 +22,9 @@
  */
 
 template <class T>
-class DoubleSharedBufferT: public SharedBuffer{
+class DoubleSharedBuffer: public SharedBuffer{
 public:
-    DoubleSharedBufferT(std::string name, int size): SharedBuffer(name, size){
+    DoubleSharedBuffer(std::string name, int size): SharedBuffer(name, size){
         buf1.init("top", size);
         buf2.init("bottom",size);
         topPtr = &buf1;
@@ -50,22 +50,22 @@ public:
     bool IsBottomVisited();
 
 private:
-    SharedBufferT<T>* topPtr;
-    SharedBufferT<T>* bottomPtr;
+    SingleSharedBuffer<T>* topPtr;
+    SingleSharedBuffer<T>* bottomPtr;
 
-    SharedBufferT<T> buf1 = SharedBufferT<T>();
-    SharedBufferT<T> buf2 = SharedBufferT<T>();
+    SingleSharedBuffer<T> buf1 = SingleSharedBuffer<T>();
+    SingleSharedBuffer<T> buf2 = SingleSharedBuffer<T>();
 };
 
 
 template<class T>
-void DoubleSharedBufferT<T>::Read(T *data_dst, int data_tokens, int start_token) {
+void DoubleSharedBuffer<T>::Read(T *data_dst, int data_tokens, int start_token) {
     auto bufLock = bottomPtr->lock_for_reading();
     bottomPtr->Read(data_dst, data_tokens, start_token);
 }
 
 template<class T>
-void DoubleSharedBufferT<T>::Write(T *new_data, int data_tokens) {
+void DoubleSharedBuffer<T>::Write(T *new_data, int data_tokens) {
     // lock top for writing
     // Here or in proc??
     auto bufLock = topPtr->lock_for_updates();
@@ -73,14 +73,14 @@ void DoubleSharedBufferT<T>::Write(T *new_data, int data_tokens) {
 }
 
 template<class T>
-void DoubleSharedBufferT<T>::ReadSim(int data_tokens, int start_token) {
+void DoubleSharedBuffer<T>::ReadSim(int data_tokens, int start_token) {
     // lock bottom for reading
     auto bufLock = bottomPtr->lock_for_reading();
     bottomPtr->ReadSim(data_tokens, start_token);
 }
 
 template<class T>
-void DoubleSharedBufferT<T>::WriteSim(int data_tokens) {
+void DoubleSharedBuffer<T>::WriteSim(int data_tokens) {
     // lock top for writing
     // Here or in proc??
     auto bufLock = topPtr->lock_for_updates();
@@ -88,15 +88,15 @@ void DoubleSharedBufferT<T>::WriteSim(int data_tokens) {
 }
 
 template<class T>
-void DoubleSharedBufferT<T>::Swap() {
+void DoubleSharedBuffer<T>::Swap() {
     // The whole object should be locked before this
-    SharedBufferT<T>* tmpPtr = topPtr;
+    SingleSharedBuffer<T>* tmpPtr = topPtr;
     topPtr = bottomPtr;
     bottomPtr = tmpPtr;
 }
 
 template<class T>
-void DoubleSharedBufferT<T>::PrintData() {
+void DoubleSharedBuffer<T>::PrintData() {
     std::cout<<"[";
     topPtr->PrintData();
     std::cout<<"][";
@@ -105,53 +105,53 @@ void DoubleSharedBufferT<T>::PrintData() {
 }
 
 template<class T>
-int DoubleSharedBufferT<T>::StoredBottomTokens() {
+int DoubleSharedBuffer<T>::StoredBottomTokens() {
     return bottomPtr->StoredTokens();
 }
 
 template<class T>
-void DoubleSharedBufferT<T>::setTopVisited() {
+void DoubleSharedBuffer<T>::setTopVisited() {
     auto bufLock = topPtr->lock_for_updates();
     topPtr->MarkAsVisited();
 }
 
 template<class T>
-void DoubleSharedBufferT<T>::setTopUnvisited() {
+void DoubleSharedBuffer<T>::setTopUnvisited() {
     auto bufLock = topPtr->lock_for_updates();
     topPtr->MarkAsUnVisited();
 }
 
 template<class T>
-void DoubleSharedBufferT<T>::setBottomVisited() {
+void DoubleSharedBuffer<T>::setBottomVisited() {
     auto bufLock = bottomPtr->lock_for_reading();
     bottomPtr->MarkAsVisited();
 }
 
 template<class T>
-void DoubleSharedBufferT<T>::setBottomUnvisited() {
+void DoubleSharedBuffer<T>::setBottomUnvisited() {
     auto bufLock = bottomPtr->lock_for_reading();
     bottomPtr->MarkAsUnVisited();
 }
 
 template<class T>
-bool DoubleSharedBufferT<T>::IsTopEmpty() {
+bool DoubleSharedBuffer<T>::IsTopEmpty() {
     return topPtr->IsEmpty();
 }
 
 template<class T>
-bool DoubleSharedBufferT<T>::IsTopVisited() {
+bool DoubleSharedBuffer<T>::IsTopVisited() {
     return topPtr->IsVisited();
 }
 
 template<class T>
-bool DoubleSharedBufferT<T>::IsBottomVisited() {
+bool DoubleSharedBuffer<T>::IsBottomVisited() {
     return bottomPtr->IsVisited();
 }
 
 template<class T>
-bool DoubleSharedBufferT<T>::ReadyForSwap() {
+bool DoubleSharedBuffer<T>::ReadyForSwap() {
     return topPtr->IsVisited() && bottomPtr->IsVisited();
 }
 
 
-#endif //SHARED_BUFFERS_DOUBLESHAREDBUFFERT_H
+#endif //SHARED_BUFFERS_DOUBLESHAREDBUFFER_H

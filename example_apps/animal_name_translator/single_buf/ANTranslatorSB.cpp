@@ -5,7 +5,7 @@
 #include "ANTranslatorSB.h"
 #include "ANGeneratorSB.h"
 #include "ANReceiverSB.h"
-#include "../../../buffers/SharedBufferT.h"
+#include "../../../buffers/SingleSharedBuffer.h"
 #include <iostream>
 #include <thread>
 #include "../../../types.h"
@@ -15,7 +15,7 @@ int ANTranslatorSB::run(int runs, int execDelay, int rwDelay){
     ANGeneratorSB generator = ANGeneratorSB("generator", animalNames, runs, execDelay,rwDelay);
     ANReceiverSB receiver = ANReceiverSB("receiver", animalNames, runs,execDelay,rwDelay);
     // create and assign shared buffer
-    SharedBufferT<char> sharedBuffer = SharedBufferT<char>("buffer", 10);
+    SingleSharedBuffer<char> sharedBuffer = SingleSharedBuffer<char>("buffer", 10);
     generator.addOutputBufferPtr(&sharedBuffer);
     receiver.addInputBufferPtr(&sharedBuffer);
 

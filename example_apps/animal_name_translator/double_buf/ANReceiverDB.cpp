@@ -55,10 +55,10 @@ void ANReceiverDB::SwapReadyInputBuffers() {
     }
 }
 
-void ANReceiverDB::addInputBufferPtr(DoubleSharedBufferT<char> *ptr) {
+void ANReceiverDB::addInputBufferPtr(DoubleSharedBuffer<char> *ptr) {
     inputBufferPtrs.push_back(ptr);
 }
 
-void ANReceiverDB::addOutputBufferPtr(DoubleSharedBufferT<char> *ptr) {
+void ANReceiverDB::addOutputBufferPtr(DoubleSharedBuffer<char> *ptr) {
     outputBufferPtrs.push_back(ptr);
 }

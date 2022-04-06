@@ -12,8 +12,9 @@ Every primitive action can be *delayed*. Delaying the primitives enables to stud
 reading/writing to/from certain type of buffer.
 
 I also use custom implementations of buffers (see ./buffers folder). Currently, following types of buffers are implemented:
-* *SharedCharBuffer*: a simple shared buffer, where data is an array of characters.
-* *SharedCharDoubleBuffer* a [double-buffer] (https://en.wikipedia.org/wiki/Multiple_buffering) version of the *SharedCharBuffer*
+* *SingleSharedBuffer*: a simple shared buffer, where data reading and writing cannot overlap.
+* *DoubleSharedBuffer* a [double-buffer] (https://en.wikipedia.org/wiki/Multiple_buffering) version of the *SharedCharBuffer*,
+which enables overlapping data reading and writing.
 
 My project has several illustrative examples, located in  *../example_apps*.
 
