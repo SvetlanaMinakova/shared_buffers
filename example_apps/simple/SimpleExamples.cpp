@@ -12,9 +12,8 @@
 #include <string>
 #include <thread>
 #include "../../MyProcess.h"
-#include "../../buffers/SharedCharBuffer.h"
 #include "../../types.h"
-#include "../../buffers/DoubleSharedCharBuffer.h"
+#include "../../buffers/DoubleSharedBufferT.h"
 #include "../../buffers/SharedBufferT.h"
 
 /*********************/
@@ -31,16 +30,16 @@ void SimpleExamples::printData(char* data, int tokens){
 /** Examples of use */
 
 void SimpleExamples::createProcesses(){
-    MyProcess elfo = MyProcess("Elfo");
+    MyProcess<char> elfo = MyProcess<char>("Elfo");
     elfo.sayHi();
-    MyProcess bean = MyProcess("Bean");
+    MyProcess<char> bean = MyProcess<char>("Bean");
     bean.sayHi();
 }
 
 void SimpleExamples::runProcessesInThreads(){
     // create processes
-    MyProcess elfo = MyProcess("Elfo",10, 1);
-    MyProcess bean = MyProcess("Bean",5, 2);
+    MyProcess<char> elfo = MyProcess<char>("Elfo",10, 1);
+    MyProcess<char> bean = MyProcess<char>("Bean",5, 2);
 
     const int numProcesses = 2;
     int cpuCoreIds[numProcesses] = {1, 2};
@@ -56,8 +55,8 @@ void SimpleExamples::runProcessesInThreads(){
 
     // run threads
     //Create and run posix threads
-    std::thread my_thread0(&MyProcess::main, &elfo, &threadInfo[0]);
-    std::thread my_thread1(&MyProcess::main, &bean, &threadInfo[1]);
+    std::thread my_thread0(&MyProcess<char>::main, &elfo, &threadInfo[0]);
+    std::thread my_thread1(&MyProcess<char>::main, &bean, &threadInfo[1]);
 
     //join posix threads
     my_thread0.join();
@@ -71,12 +70,12 @@ void SimpleExamples::runProcessesInThreads(){
 
 void SimpleExamples::allocateBufferToOneProc(){
     // Create new shared buffer
-    SharedCharBuffer sharedCharBuffer = SharedCharBuffer("BUF", 25);
+    SharedBufferT<char> sharedCharBuffer = SharedBufferT<char>("BUF", 25);
     // tokens in buffer
     std::cout<<"Tokens in shared buffer: "<<sharedCharBuffer.StoredTokens()<<std::endl;
 
     // create process that writes to shared buffer
-    MyProcess writer = MyProcess("Writer",10, 1, 2, 1);
+    MyProcess<char> writer = MyProcess<char>("Writer",10, 1, 2, 1);
 
     // allocate shared buffer to process
     writer.addOutputBufferPtr(&sharedCharBuffer);
@@ -91,7 +90,7 @@ void SimpleExamples::allocateBufferToOneProc(){
     threadInfo[0].core_id = 0;
 
     // create and run posix threads
-    std::thread writer_thread(&MyProcess::main, &writer, &threadInfo[0]);
+    std::thread writer_thread(&MyProcess<char>::main, &writer, &threadInfo[0]);
 
     // join posix threads
     writer_thread.join();
@@ -105,14 +104,14 @@ void SimpleExamples::allocateBufferToOneProc(){
 
 void SimpleExamples::allocateBufferToTwoProc(){
     // Create new shared buffer
-    SharedCharBuffer sharedCharBuffer = SharedCharBuffer("BUF", 25);
+    SharedBufferT<char> sharedCharBuffer = SharedBufferT<char>("BUF", 25);
     // tokens in buffer
     std::cout<<"Tokens in shared buffer: "<<sharedCharBuffer.StoredTokens()<<std::endl;
 
     // create process that writes to shared buffer
-    MyProcess writer = MyProcess("Writer",10, 2, 2, 1);
+    MyProcess<char> writer = MyProcess<char>("Writer",10, 2, 2, 1);
     //create process that reads from shared buffer
-    MyProcess reader = MyProcess("Reader",5,1,1,4);
+    MyProcess reader = MyProcess<char>("Reader",5,1,1,4);
 
     // allocate shared buffer to processes
     writer.addOutputBufferPtr(&sharedCharBuffer);
@@ -131,8 +130,8 @@ void SimpleExamples::allocateBufferToTwoProc(){
     threadInfo[1].core_id = 1;
 
     // create and run posix threads
-    std::thread writer_thread(&MyProcess::main, &writer, &threadInfo[0]);
-    std::thread reader_thread(&MyProcess::main, &reader, &threadInfo[1]);
+    std::thread writer_thread(&MyProcess<char>::main, &writer, &threadInfo[0]);
+    std::thread reader_thread(&MyProcess<char>::main, &reader, &threadInfo[1]);
 
     // join posix threads
     writer_thread.join();
@@ -143,43 +142,6 @@ void SimpleExamples::allocateBufferToTwoProc(){
 
     // delete pthread parameters
     free(threadInfo);
-}
-
-void SimpleExamples::readAndWriteToSharedCharBuffer(){
-    // Create new shared buffer
-    SharedCharBuffer sharedCharBuffer = SharedCharBuffer("BUF", 25);
-
-    // write data
-    char beer[] = {'B', 'e', 'e', 'r'};
-    int beer_size = sizeof (beer);
-    std::cout<<"write data"<<std::endl;
-    sharedCharBuffer.Write(beer, beer_size);
-    sharedCharBuffer.PrintData();
-    std::cout<<std::endl;
-    std::cout<<"Tokens stored: "<<sharedCharBuffer.StoredTokens()<<std::endl;
-    std::cout<<"Free space (tokens): "<<sharedCharBuffer.FreeTokens()<<std::endl;
-
-    char potatoe[] = {'P', 'o', 't', 'a', 't', 'o', 'e'};
-    int potatoe_size = sizeof(potatoe);
-    sharedCharBuffer.Write(potatoe, potatoe_size);
-    sharedCharBuffer.PrintData();
-    std::cout<<std::endl;
-    std::cout<<"Tokens stored: "<<sharedCharBuffer.StoredTokens()<<std::endl;
-    std::cout<<"Free space (tokens): "<<sharedCharBuffer.FreeTokens()<<std::endl;
-    std::cout<<std::endl;
-
-    // read data
-    char beer_receiver[beer_size];
-    std::cout<<"read data. Start: 0, tokens: "<<beer_size<<std::endl;
-    sharedCharBuffer.Read(beer_receiver, beer_size);
-    printData(beer_receiver, beer_size);
-    std::cout<<std::endl;
-
-    char potatoe_receiver[potatoe_size];
-    std::cout<<"read data. Start: "<<beer_size<<", tokens: "<<potatoe_size<<std::endl;
-    sharedCharBuffer.Read(potatoe_receiver, potatoe_size, beer_size);
-    printData(potatoe_receiver, potatoe_size);
-    std::cout<<std::endl;
 }
 
 void SimpleExamples::readAndWriteToSharedTemplateBufferChar(){
@@ -220,7 +182,7 @@ void SimpleExamples::readAndWriteToSharedTemplateBufferChar(){
 }
 
 void SimpleExamples::readAndWriteToDoubleNestedCharBuffer() {
-    DoubleSharedCharBuffer dBuf = DoubleSharedCharBuffer("dBuf", 10);
+    DoubleSharedBufferT<char> dBuf = DoubleSharedBufferT<char>("dBuf", 10);
     // Test data
     char beer[] = {'B', 'e', 'e', 'r'};
     int beer_size = sizeof (beer);
@@ -259,8 +221,4 @@ void SimpleExamples::readAndWriteToDoubleNestedCharBuffer() {
     dBuf.Swap();
     dBuf.PrintData();
     std::cout<<std::endl;
-}
-
-void SimpleExamples::createEmptySharedCharBuffer(){
-    SharedCharBuffer buf = SharedCharBuffer();
 }

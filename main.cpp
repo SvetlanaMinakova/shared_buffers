@@ -14,10 +14,8 @@ int main() {
     // SimpleExamples::allocateBufferToOneProc();
     // SimpleExamples::allocateBufferToTwoProc();
     // SimpleExamples::runProcessesInThreads();
-    // SimpleExamples::readAndWriteToSharedCharBuffer();
-    // SimpleExamples::createEmptySharedCharBuffer();
     // SimpleExamples::readAndWriteToDoubleNestedCharBuffer();
-    SimpleExamples::readAndWriteToSharedTemplateBufferChar();
+    // SimpleExamples::readAndWriteToSharedTemplateBufferChar();
 
     // ************************
     // run ANTranslator example
@@ -40,7 +38,7 @@ int main() {
      */
 
     // comparison
-    // ANComparison::compareTimeSingleAndDoubleBuf(runs, execDelayS, rwDelayS);
+    ANComparison::compareTimeSingleAndDoubleBuf(runs, execDelayS, rwDelayS);
 
     return 0;
 }

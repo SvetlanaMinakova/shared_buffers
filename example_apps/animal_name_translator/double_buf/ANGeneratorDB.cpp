@@ -50,10 +50,10 @@ void ANGeneratorDB::SwapReadyOutputBuffers(){
     }
 }
 
-void ANGeneratorDB::addInputBufferPtr(DoubleSharedCharBuffer *ptr) {
+void ANGeneratorDB::addInputBufferPtr(DoubleSharedBufferT<char> *ptr) {
     inputBufferPtrs.push_back(ptr);
 }
 
-void ANGeneratorDB::addOutputBufferPtr(DoubleSharedCharBuffer *ptr) {
+void ANGeneratorDB::addOutputBufferPtr(DoubleSharedBufferT<char> *ptr) {
     outputBufferPtrs.push_back(ptr);
 }

@@ -5,9 +5,15 @@
 #ifndef SHARED_BUFFERS_MYPROCESS_H
 #define SHARED_BUFFERS_MYPROCESS_H
 #include <string>
-#include "buffers/SharedCharBuffer.h"
+#include "buffers/SharedBufferT.h"
 #include "vector"
+#include <utility>
+#include <iostream>
+#include "types.h"
+#include <chrono>
+#include <thread>
 
+template <class T>
 class MyProcess {
 public:
     std::string name;
@@ -22,8 +28,8 @@ public:
     virtual void read();
     virtual void write();
 
-    virtual void addInputBufferPtr(SharedCharBuffer* ptr);
-    virtual void addOutputBufferPtr(SharedCharBuffer* ptr);
+    virtual void addInputBufferPtr(SharedBufferT<T>* ptr);
+    virtual void addOutputBufferPtr(SharedBufferT<T>* ptr);
     void printInputBufferNames();
     void printOutputBufferNames();
     virtual bool inputDataAvailable();
@@ -38,9 +44,126 @@ public:
     explicit MyProcess(std::string name, int runs=1, int execDelay=0, int rwDelay=0, int prodRate=1, int consRate=1);
 
 protected:
-    std::vector<SharedCharBuffer*> inputBufferPtrs;
-    std::vector<SharedCharBuffer*> outputBufferPtrs;
+    std::vector<SharedBufferT<T>*> inputBufferPtrs;
+    std::vector<SharedBufferT<T>*> outputBufferPtrs;
 };
+
+
+// Constructor
+template<class T>
+MyProcess<T>::MyProcess(std::string name, int runs, int execDelay, int rwDelay, int prodRate, int consRate) {
+    this->name = std::move(name);
+    this->runs = runs;
+    this->execDelay = execDelay;
+    this->rwDelay = rwDelay;
+    this->productionRate = prodRate;
+    this->consumptionRate = consRate;
+}
+
+// Manage I/O buffers
+template<class T>
+void MyProcess<T>::addInputBufferPtr(SharedBufferT<T>* ptr){
+    inputBufferPtrs.push_back(ptr);
+}
+
+template<class T>
+void MyProcess<T>::addOutputBufferPtr(SharedBufferT<T>* ptr){
+    outputBufferPtrs.push_back(ptr);
+}
+
+template<class T>
+void MyProcess<T>::printInputBufferNames(){
+    for (auto bufPtr:inputBufferPtrs){
+        std::cout<<bufPtr->name<<std::endl;
+    }
+}
+
+template<class T>
+void MyProcess<T>::printOutputBufferNames(){
+    for (auto bufPtr:outputBufferPtrs){
+        std::cout<<bufPtr->name<<std::endl;
+    }
+}
+
+template<class T>
+bool MyProcess<T>::inputDataAvailable(){
+    for (auto bufPtr:inputBufferPtrs){
+        if (bufPtr->StoredTokens() < consumptionRate)
+            return false;
+    }
+    return true;
+}
+
+template<class T>
+bool MyProcess<T>::outputDataAvailable(){
+    for (auto bufPtr:outputBufferPtrs){
+        if (bufPtr->FreeTokens() < productionRate)
+            return false;
+    }
+    return true;
+}
+
+// read, write, execute primitives
+template<class T>
+void MyProcess<T>::read(){
+    //wait until all input data is available
+    while (!inputDataAvailable());
+
+    for (auto bufPtr:inputBufferPtrs){
+        // lock input buffer for reading
+        auto bufLock = bufPtr->lock_for_reading();
+        // delay reading
+        delay(rwDelay*1000);
+        bufPtr->ReadSim(consumptionRate);
+    }
+}
+
+template<class T>
+void MyProcess<T>::write(){
+    //wait until all output data is available
+    while (!outputDataAvailable());
+
+    for (auto bufPtr:outputBufferPtrs){
+        //lock output buffer for writing
+        auto lock = bufPtr->lock_for_updates();
+        // delay writing
+        delay(rwDelay*1000);
+        bufPtr->WriteSim(productionRate);
+    }
+}
+
+template<class T>
+void MyProcess<T>::sayHi() {
+    std::cout<<"Hi, I am "<< this->name<<std::endl;
+}
+
+template<class T>
+void MyProcess<T>::delay(int timeMS) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(timeMS));
+}
+
+template<class T>
+void MyProcess<T>::exec() {
+    delay((execDelay * 1000));
+    sayHi();
+}
+
+/** INFERENCE HERE **/
+template<class T>
+void MyProcess<T>::main(void *vpar) {
+    for(int run =0; run < runs; run++){
+
+        //read input data
+        read();
+
+        //execute process
+        exec();
+
+        //write output data
+        write();
+    }
+}
+
 
 
 #endif //SHARED_BUFFERS_MYPROCESS_H

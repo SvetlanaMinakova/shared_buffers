@@ -8,10 +8,10 @@
 #include "../../MyProcess.h"
 #include<map>
 
-class ANReceiver : public MyProcess{
+class ANReceiver : public MyProcess<char>{
 public:
     ANReceiver(const std::string& name, std::map<std::string, std::string>& animalNames, int runs=1, int execDelay=0,
-               int rwDelay=0, int prodRate=1, int consRate=1): MyProcess(name, runs,execDelay, rwDelay, prodRate, consRate){
+               int rwDelay=0, int prodRate=1, int consRate=1): MyProcess<char>(name, runs,execDelay, rwDelay, prodRate, consRate){
         this->animalNames=animalNames;
     };
     std::string translate(std::string animalName);

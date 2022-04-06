@@ -5,7 +5,7 @@
 #include "ANTranslatorSB.h"
 #include "ANGeneratorSB.h"
 #include "ANReceiverSB.h"
-#include "../../../buffers/SharedCharBuffer.h"
+#include "../../../buffers/SharedBufferT.h"
 #include <iostream>
 #include <thread>
 #include "../../../types.h"
@@ -15,7 +15,7 @@ int ANTranslatorSB::run(int runs, int execDelay, int rwDelay){
     ANGeneratorSB generator = ANGeneratorSB("generator", animalNames, runs, execDelay,rwDelay);
     ANReceiverSB receiver = ANReceiverSB("receiver", animalNames, runs,execDelay,rwDelay);
     // create and assign shared buffer
-    SharedCharBuffer sharedBuffer = SharedCharBuffer("buffer", 10);
+    SharedBufferT<char> sharedBuffer = SharedBufferT<char>("buffer", 10);
     generator.addOutputBufferPtr(&sharedBuffer);
     receiver.addInputBufferPtr(&sharedBuffer);
 
@@ -31,8 +31,8 @@ int ANTranslatorSB::run(int runs, int execDelay, int rwDelay){
 
     // run threads
     //Create and run posix threads
-    std::thread my_thread0(&ANGenerator::main, &generator, &threadInfo[0]);
-    std::thread my_thread1(&MyProcess::main, &receiver, &threadInfo[1]);
+    std::thread my_thread0(&ANGeneratorSB::main, &generator, &threadInfo[0]);
+    std::thread my_thread1(&ANReceiverSB::main, &receiver, &threadInfo[1]);
 
     //join posix threads
     my_thread0.join();
