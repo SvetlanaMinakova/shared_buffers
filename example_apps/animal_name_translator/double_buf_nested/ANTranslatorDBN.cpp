@@ -5,17 +5,19 @@
 #include "ANTranslatorDBN.h"
 #include "ANGeneratorDBN.h"
 #include "ANReceiverDBN.h"
-#include "../../../buffers/DoubleNestedCharBuffer.h"
+#include "../../../buffers/DoubleSharedCharBuffer.h"
 #include <iostream>
 #include <thread>
 #include "../../../types.h"
 
 int ANTranslatorDBN::run(int runs) {
     // create generator and receiver processes
-    ANGeneratorDBN generator = ANGeneratorDBN("generator", animalNames, runs, 1, 1, 1);
-    ANReceiverDBN receiver = ANReceiverDBN("receiver", animalNames, runs,1,1,1);
+    ANGeneratorDBN generator = ANGeneratorDBN("generator", animalNames, runs, 1);
+    ANReceiverDBN receiver = ANReceiverDBN("receiver", animalNames, runs,1);
     // create and assign shared buffer
-    DoubleNestedCharBuffer sharedBuffer = DoubleNestedCharBuffer("buffer", 10);
+    DoubleSharedCharBuffer sharedBuffer = DoubleSharedCharBuffer("buffer", 10);
+    // needed to perform the first swap, when swap condition = top is visited and bottom is visited
+    sharedBuffer.setBottomVisited();
     generator.addOutputBufferPtr(&sharedBuffer);
     receiver.addInputBufferPtr(&sharedBuffer);
 

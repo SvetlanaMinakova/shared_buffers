@@ -9,7 +9,8 @@
 
 class ANReceiverSB: public ANReceiver{
 public:
-    ANReceiverSB(const std::string& name, std::map<std::string, std::string>& animalNames, int runs=1, int execDelay=0, int prodRate=1, int consRate=1): ANReceiver(name, animalNames, runs,execDelay, prodRate, consRate){};
+    ANReceiverSB(const std::string& name, std::map<std::string, std::string>& animalNames, int runs=1, int execDelay=0, int rwDelay=0,
+                 int prodRate=1, int consRate=1): ANReceiver(name, animalNames, runs,execDelay, rwDelay, prodRate, consRate){};
     bool inputDataAvailable() override;
     void read() override;
 };

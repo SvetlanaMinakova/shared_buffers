@@ -11,10 +11,11 @@
 #include <thread>
 
 // Constructor
-MyProcess::MyProcess(std::string name, int runs, int execDelay, int prodRate, int consRate) {
+MyProcess::MyProcess(std::string name, int runs, int execDelay, int rwDelay, int prodRate, int consRate) {
     this->name = std::move(name);
     this->runs = runs;
     this->execDelay = execDelay;
+    this->rwDelay = rwDelay;
     this->productionRate = prodRate;
     this->consumptionRate = consRate;
 }
@@ -56,7 +57,7 @@ bool MyProcess::outputDataAvailable(){
     return true;
 }
 
-// Read, write, execute primitives
+// read, write, execute primitives
 void MyProcess::read(){
     //wait until all input data is available
     while (!inputDataAvailable());
@@ -64,6 +65,8 @@ void MyProcess::read(){
     for (auto bufPtr:inputBufferPtrs){
         // lock input buffer for reading
         auto bufLock = bufPtr->lock_for_reading();
+        // delay reading
+        delay(rwDelay*1000);
         bufPtr->Read(consumptionRate);
     }
 }
@@ -75,6 +78,8 @@ void MyProcess::write(){
     for (auto bufPtr:outputBufferPtrs){
         //lock output buffer for writing
         auto lock = bufPtr->lock_for_updates();
+        // delay writing
+        delay(rwDelay*1000);
         bufPtr->Write(productionRate);
     }
 }
@@ -83,13 +88,12 @@ void MyProcess::sayHi() {
     std::cout<<"Hi, I am "<< this->name<<std::endl;
 }
 
-void MyProcess::delayExec() {
-    int execDelayMS = execDelay * 1000;
-    std::this_thread::sleep_for(std::chrono::milliseconds(execDelayMS));
+void MyProcess::delay(int timeMS) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(timeMS));
 }
 
 void MyProcess::exec() {
-    delayExec();
+    delay((execDelay * 1000));
     sayHi();
 }
 

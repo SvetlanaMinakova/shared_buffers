@@ -20,7 +20,7 @@ public:
 
     // DoubleSharedCharBuffer
     static void readAndWriteToDoubleSharedCharBuffer();
-    //DoubleNestedCharBuffer
+    //DoubleSharedCharBuffer
     static void readAndWriteToDoubleNestedCharBuffer();
 
 

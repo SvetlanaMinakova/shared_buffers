@@ -25,7 +25,8 @@ std::string ANReceiver::translate(std::string animalName){
 }
 
 void ANReceiver::exec() {
-    delayExec();
+    int execDelayMS = execDelay * 1000;
+    delay(execDelayMS);
     std::string translatedAnimalName = translate(receivedAnimalName);
     std::cout<<"receiver says "<<translatedAnimalName<<std::endl;
 }

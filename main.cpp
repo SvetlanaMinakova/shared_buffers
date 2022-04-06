@@ -3,7 +3,6 @@
 #include "types.h"
 #include "example_apps/simple/SimpleExamples.h"
 #include "example_apps/animal_name_translator/single_buf/ANTranslatorSB.h"
-#include "example_apps/animal_name_translator/double_buf/ANTranslatorDB.h"
 #include "example_apps/animal_name_translator/double_buf_nested/ANTranslatorDBN.h"
 
 /*********************/
@@ -27,17 +26,11 @@ int main() {
     // app.printAnimals();
     app.run(2);
     */
-    /**
-    // double-buffer
-    ANTranslatorDB app = ANTranslatorDB();
-    // app.printAnimals();
-    app.run(2);
-     */
-    
+
     // double-buffer (nested)
     ANTranslatorDBN app = ANTranslatorDBN();
     // app.printAnimals();
-    app.run(2);
+    app.run(10);
 
     return 0;
 }

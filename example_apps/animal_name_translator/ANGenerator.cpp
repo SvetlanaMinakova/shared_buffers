@@ -18,7 +18,8 @@ std::string ANGenerator::pickRandomAnimal() {
 }
 
 void ANGenerator::exec() {
-    delayExec();
+    int execDelayMS = execDelay * 1000;
+    delay(execDelayMS);
     // select random animal name
     generatedAnimalName = pickRandomAnimal();
     std::cout << "generator says " << generatedAnimalName << std::endl;

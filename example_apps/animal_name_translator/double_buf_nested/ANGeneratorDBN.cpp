@@ -18,13 +18,16 @@ bool ANGeneratorDBN::outputDataAvailable(){
 }
 
 void ANGeneratorDBN::write(){
-    // wait until all output data is available
+    // wait until all output data buffers are available
     while (!outputDataAvailable());
 
     for (auto bufPtr:outputBufferPtrs){
         productionRate = int(generatedAnimalName.length());
         //std::cout<<"prod. rate: "<<productionRate<<std::endl;
+        //std::cout<<"Writer writes: "<<productionRate<<" tokens into "<<bufPtr->name<<std::endl;
         char* currentAnimalNameAsArr = &generatedAnimalName[0];
+        // delay writing
+        delay((rwDelay*1000));
         bufPtr->Write(currentAnimalNameAsArr,productionRate);
         // manual "data written" flag
         auto lock = bufPtr->lock_for_updates();
@@ -35,9 +38,9 @@ void ANGeneratorDBN::write(){
 
 void ANGeneratorDBN::SwapReadyOutputBuffers(){
     for (auto bufPtr:outputBufferPtrs){
-        std::cout<<"Writer swaps!"<<std::endl;
         if (bufPtr->IsTopVisited() and bufPtr->IsBottomVisited()){
             // lock output buffer for writing
+            //std::cout<<"Writer swaps: "<<bufPtr->name<<std::endl;
             auto lock = bufPtr->lock_for_updates();
             bufPtr->Swap();
             // buffer status is reset after writing
@@ -47,10 +50,10 @@ void ANGeneratorDBN::SwapReadyOutputBuffers(){
     }
 }
 
-void ANGeneratorDBN::addInputBufferPtr(DoubleNestedCharBuffer *ptr) {
+void ANGeneratorDBN::addInputBufferPtr(DoubleSharedCharBuffer *ptr) {
     inputBufferPtrs.push_back(ptr);
 }
 
-void ANGeneratorDBN::addOutputBufferPtr(DoubleNestedCharBuffer *ptr) {
+void ANGeneratorDBN::addOutputBufferPtr(DoubleSharedCharBuffer *ptr) {
     outputBufferPtrs.push_back(ptr);
 }

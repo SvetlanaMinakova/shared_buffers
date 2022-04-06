@@ -12,11 +12,12 @@ class MyProcess {
 public:
     std::string name;
     int execDelay;
+    int rwDelay=0;
     int runs;
 
     void sayHi();
 
-    void delayExec();
+    void delay(int timeMS);
     virtual void exec();
     virtual void read();
     virtual void write();
@@ -34,7 +35,7 @@ public:
     virtual void main(void *par);
 
     // constructor and destructor
-    explicit MyProcess(std::string name, int runs=1, int execDelay=0, int prodRate=1, int consRate=1);
+    explicit MyProcess(std::string name, int runs=1, int execDelay=0, int rwDelay=0, int prodRate=1, int consRate=1);
 
 protected:
     std::vector<SharedCharBuffer*> inputBufferPtrs;

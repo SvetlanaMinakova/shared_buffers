@@ -11,7 +11,8 @@
 
 class ANGenerator: public MyProcess{
 public:
-    ANGenerator(const std::string& name, std::map<std::string, std::string>& animalNames, int runs=1, int execDelay=0, int prodRate=1, int consRate=1): MyProcess(name, runs,execDelay, prodRate, consRate){
+    ANGenerator(const std::string& name, std::map<std::string, std::string>& animalNames, int runs=1, int execDelay=0,
+                int rwDelay=0, int prodRate=1, int consRate=1): MyProcess(name, runs,execDelay, rwDelay, prodRate, consRate){
         this->animalNames=animalNames;
     };
     [[nodiscard]] std::string pickRandomAnimal();

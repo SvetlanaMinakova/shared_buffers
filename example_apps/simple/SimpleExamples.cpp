@@ -15,7 +15,6 @@
 #include "../../buffers/SharedCharBuffer.h"
 #include "../../types.h"
 #include "../../buffers/DoubleSharedCharBuffer.h"
-#include "../../buffers/DoubleNestedCharBuffer.h"
 
 /*********************/
 /** Helper functions */
@@ -149,10 +148,10 @@ void SimpleExamples::readAndWriteToSharedCharBuffer(){
     // Create new shared buffer
     SharedCharBuffer sharedCharBuffer = SharedCharBuffer("BUF", 25);
 
-    // Write data
+    // write data
     char beer[] = {'B', 'e', 'e', 'r'};
     int beer_size = sizeof (beer);
-    std::cout<<"Write data"<<std::endl;
+    std::cout<<"write data"<<std::endl;
     sharedCharBuffer.Write(beer, beer_size);
     sharedCharBuffer.PrintData();
     std::cout<<std::endl;
@@ -168,21 +167,21 @@ void SimpleExamples::readAndWriteToSharedCharBuffer(){
     std::cout<<"Free space (tokens): "<<sharedCharBuffer.FreeTokens()<<std::endl;
     std::cout<<std::endl;
 
-    // Read data
+    // read data
     char beer_receiver[beer_size];
-    std::cout<<"Read data. Start: 0, tokens: "<<beer_size<<std::endl;
+    std::cout<<"read data. Start: 0, tokens: "<<beer_size<<std::endl;
     sharedCharBuffer.Read(beer_receiver, beer_size);
     printData(beer_receiver, beer_size);
     std::cout<<std::endl;
 
     char potatoe_receiver[potatoe_size];
-    std::cout<<"Read data. Start: "<<beer_size<<", tokens: "<<potatoe_size<<std::endl;
+    std::cout<<"read data. Start: "<<beer_size<<", tokens: "<<potatoe_size<<std::endl;
     sharedCharBuffer.Read(potatoe_receiver, potatoe_size, beer_size);
     printData(potatoe_receiver, potatoe_size);
     std::cout<<std::endl;
 }
 
-void SimpleExamples::readAndWriteToDoubleSharedCharBuffer() {
+void SimpleExamples::readAndWriteToDoubleNestedCharBuffer() {
     DoubleSharedCharBuffer dBuf = DoubleSharedCharBuffer("dBuf", 10);
     // Test data
     char beer[] = {'B', 'e', 'e', 'r'};
@@ -190,8 +189,8 @@ void SimpleExamples::readAndWriteToDoubleSharedCharBuffer() {
     char potatoe[] = {'P', 'o', 't', 'a', 't', 'o', 'e'};
     int potatoe_size = sizeof(potatoe);
 
-    // Write data
-    std::cout<<"Write data"<<std::endl;
+    // write data
+    std::cout<<"write data"<<std::endl;
     dBuf.Write(beer, beer_size);
     dBuf.PrintData();
     std::cout<<std::endl;
@@ -201,56 +200,14 @@ void SimpleExamples::readAndWriteToDoubleSharedCharBuffer() {
     dBuf.PrintData();
     std::cout<<std::endl;
 
-    // Write second portion of data
-    std::cout<<"Write data"<<std::endl;
+    // write second portion of data
+    std::cout<<"write data"<<std::endl;
     dBuf.Write(potatoe, potatoe_size);
     dBuf.PrintData();
     std::cout<<std::endl;
 
-    // Read data
-    std::cout<<"Read data"<<std::endl;
-    int readTokens = dBuf.StoredBottomTokens();
-    char tmp[readTokens];
-    dBuf.Read(tmp, readTokens);
-    dBuf.PrintData();
-    std::cout<<"Data extracted: ";
-    printData(tmp, readTokens);
-    std::cout<<std::endl;
-    std::cout<<std::endl;
-
-    std::cout<<"Swap buffers"<<std::endl;
-    dBuf.Swap();
-    dBuf.PrintData();
-    std::cout<<std::endl;
-}
-
-void SimpleExamples::readAndWriteToDoubleNestedCharBuffer() {
-    DoubleNestedCharBuffer dBuf = DoubleNestedCharBuffer("dBuf", 10);
-    // Test data
-    char beer[] = {'B', 'e', 'e', 'r'};
-    int beer_size = sizeof (beer);
-    char potatoe[] = {'P', 'o', 't', 'a', 't', 'o', 'e'};
-    int potatoe_size = sizeof(potatoe);
-
-    // Write data
-    std::cout<<"Write data"<<std::endl;
-    dBuf.Write(beer, beer_size);
-    dBuf.PrintData();
-    std::cout<<std::endl;
-
-    std::cout<<"Swap buffers"<<std::endl;
-    dBuf.Swap();
-    dBuf.PrintData();
-    std::cout<<std::endl;
-
-    // Write second portion of data
-    std::cout<<"Write data"<<std::endl;
-    dBuf.Write(potatoe, potatoe_size);
-    dBuf.PrintData();
-    std::cout<<std::endl;
-
-    // Read data
-    std::cout<<"Read data"<<std::endl;
+    // read data
+    std::cout<<"read data"<<std::endl;
     int readTokens = dBuf.StoredBottomTokens();
     char tmp[readTokens];
     dBuf.Read(tmp, readTokens);

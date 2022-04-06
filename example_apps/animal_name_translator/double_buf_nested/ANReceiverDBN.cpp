@@ -19,7 +19,7 @@ bool ANReceiverDBN::inputDataAvailable(){
     return true;
 }
 
-// Read, write, execute primitives
+// read, write, execute primitives
 void ANReceiverDBN::read(){
     //wait until all input data is available
     while (!inputDataAvailable());
@@ -28,7 +28,9 @@ void ANReceiverDBN::read(){
         // lock input buffer for reading
         // auto bufLock = bufPtr->lock_bottom_for_reading();
         consumptionRate = bufPtr->StoredBottomTokens();
-        std::cout<<"cons. rate: "<<consumptionRate<<std::endl;
+        //std::cout<<"cons. rate: "<<consumptionRate<<std::endl;
+        // delay reading
+        delay((rwDelay*1000));
         char tmpBuf[consumptionRate];
         bufPtr->Read(tmpBuf,consumptionRate);
         receivedAnimalName = convertToString(tmpBuf, consumptionRate);
@@ -42,7 +44,7 @@ void ANReceiverDBN::read(){
 void ANReceiverDBN::SwapReadyInputBuffers() {
     for (auto bufPtr:inputBufferPtrs){
         if (bufPtr->IsTopVisited() and bufPtr->IsBottomVisited()){
-            std::cout<<"Reader swaps!"<<std::endl;
+            //std::cout<<"Reader swaps buffer: "<<bufPtr->name<<"!"<<std::endl;
             // lock output buffer for writing
             auto lock = bufPtr->lock_for_updates();
             bufPtr->Swap();
@@ -53,10 +55,10 @@ void ANReceiverDBN::SwapReadyInputBuffers() {
     }
 }
 
-void ANReceiverDBN::addInputBufferPtr(DoubleNestedCharBuffer *ptr) {
+void ANReceiverDBN::addInputBufferPtr(DoubleSharedCharBuffer *ptr) {
     inputBufferPtrs.push_back(ptr);
 }
 
-void ANReceiverDBN::addOutputBufferPtr(DoubleNestedCharBuffer *ptr) {
+void ANReceiverDBN::addOutputBufferPtr(DoubleSharedCharBuffer *ptr) {
     outputBufferPtrs.push_back(ptr);
 }

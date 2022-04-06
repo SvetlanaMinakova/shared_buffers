@@ -17,16 +17,17 @@ bool ANReceiverSB::inputDataAvailable(){
     return true;
 }
 
-// Read, write, execute primitives
+// read, write, execute primitives
 void ANReceiverSB::read(){
     //wait until all input data is available
     while (!inputDataAvailable());
-
     for (auto bufPtr:inputBufferPtrs){
         // lock input buffer for reading
         auto bufLock = bufPtr->lock_for_reading();
         consumptionRate = bufPtr->StoredTokens();
         // std::cout<<"cons. rate: "<<consumptionRate<<std::endl;
+        // delay reading
+        delay((rwDelay*1000));
         char tmpBuf[consumptionRate];
         bufPtr->Read(tmpBuf,consumptionRate);
         receivedAnimalName = convertToString(tmpBuf, consumptionRate);

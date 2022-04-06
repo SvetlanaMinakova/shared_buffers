@@ -24,10 +24,11 @@ void ANGeneratorSB::write(){
     for (auto bufPtr:outputBufferPtrs){
         //lock output buffer for writing
         auto lock = bufPtr->lock_for_updates();
-
         productionRate = int(generatedAnimalName.length());
         //std::cout<<"prod. rate: "<<productionRate<<std::endl;
         char* currentAnimalNameAsArr = &generatedAnimalName[0];
+        // delay writing
+        delay((rwDelay*1000));
         bufPtr->Write(currentAnimalNameAsArr,productionRate);
     }
 }

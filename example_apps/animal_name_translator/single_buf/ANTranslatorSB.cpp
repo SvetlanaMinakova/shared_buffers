@@ -12,8 +12,8 @@
 
 int ANTranslatorSB::run(int runs){
     // create generator and receiver processes
-    ANGeneratorSB generator = ANGeneratorSB("generator", animalNames, runs, 1, 1, 1);
-    ANReceiverSB receiver = ANReceiverSB("receiver", animalNames, runs,1,1,1);
+    ANGeneratorSB generator = ANGeneratorSB("generator", animalNames, runs, 1);
+    ANReceiverSB receiver = ANReceiverSB("receiver", animalNames, runs,1);
     // create and assign shared buffer
     SharedCharBuffer sharedBuffer = SharedCharBuffer("buffer", 10);
     generator.addOutputBufferPtr(&sharedBuffer);
