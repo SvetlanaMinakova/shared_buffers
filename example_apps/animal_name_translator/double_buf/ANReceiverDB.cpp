@@ -2,7 +2,7 @@
 // Created by svetlana on 01/04/2022.
 //
 
-#include "ANReceiverDBN.h"
+#include "ANReceiverDB.h"
 #include "iostream"
 
 /**
@@ -10,7 +10,7 @@
  * input data is available when there is data stored in the buffer
  * @return true, if input data is available and false otherwise
  * */
-bool ANReceiverDBN::inputDataAvailable(){
+bool ANReceiverDB::inputDataAvailable(){
     for (auto bufPtr:inputBufferPtrs){
         if (bufPtr->StoredBottomTokens()==0)
             // if (bufPtr->StoredTokens()<consumptionRate) //this check would require pre-determined or constant consumption rate
@@ -20,7 +20,7 @@ bool ANReceiverDBN::inputDataAvailable(){
 }
 
 // read, write, execute primitives
-void ANReceiverDBN::read(){
+void ANReceiverDB::read(){
     //wait until all input data is available
     while (!inputDataAvailable());
 
@@ -41,7 +41,7 @@ void ANReceiverDBN::read(){
     SwapReadyInputBuffers();
 }
 
-void ANReceiverDBN::SwapReadyInputBuffers() {
+void ANReceiverDB::SwapReadyInputBuffers() {
     for (auto bufPtr:inputBufferPtrs){
         if (bufPtr->IsTopVisited() and bufPtr->IsBottomVisited()){
             //std::cout<<"Reader swaps buffer: "<<bufPtr->name<<"!"<<std::endl;
@@ -55,10 +55,10 @@ void ANReceiverDBN::SwapReadyInputBuffers() {
     }
 }
 
-void ANReceiverDBN::addInputBufferPtr(DoubleSharedCharBuffer *ptr) {
+void ANReceiverDB::addInputBufferPtr(DoubleSharedCharBuffer *ptr) {
     inputBufferPtrs.push_back(ptr);
 }
 
-void ANReceiverDBN::addOutputBufferPtr(DoubleSharedCharBuffer *ptr) {
+void ANReceiverDB::addOutputBufferPtr(DoubleSharedCharBuffer *ptr) {
     outputBufferPtrs.push_back(ptr);
 }

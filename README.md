@@ -8,6 +8,9 @@ In my project I use my own implementation of process (see *MyProcess class*). Th
 * *execute* a piece of code, possibly processing the input data
 * *write* results into output buffer(s)
 
+Every primitive action can be *delayed*. Delaying the primitives enables to study difference in time, required by a process to perform
+reading/writing to/from certain type of buffer.
+
 I also use custom implementations of buffers (see ./buffers folder). Currently, following types of buffers are implemented:
 * *SharedCharBuffer*: a simple shared buffer, where data is an array of characters.
 * *SharedCharDoubleBuffer* a [double-buffer] (https://en.wikipedia.org/wiki/Multiple_buffering) version of the *SharedCharBuffer*

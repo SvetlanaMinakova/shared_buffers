@@ -9,7 +9,7 @@
 
 class ANTranslatorSB: public ANTranslator{
 public:
-    int run(int runs) override;
+    int run(int runs, int execDelay, int rwDelay) override;
 };
 
 

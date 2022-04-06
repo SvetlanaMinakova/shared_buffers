@@ -2,14 +2,14 @@
 // Created by svetlana on 01/04/2022.
 //
 
-#include "ANGeneratorDBN.h"
+#include "ANGeneratorDB.h"
 #include <iostream>
 /**
  * Check whether output data buffers are available for writing
  * output data buffers are available when the top part of double-buffer is empty
  * @return true, if output data buffers are available and false otherwise
  * */
-bool ANGeneratorDBN::outputDataAvailable(){
+bool ANGeneratorDB::outputDataAvailable(){
     for (auto bufPtr:outputBufferPtrs){
         if (!bufPtr->IsTopEmpty())
             return false;
@@ -17,7 +17,7 @@ bool ANGeneratorDBN::outputDataAvailable(){
     return true;
 }
 
-void ANGeneratorDBN::write(){
+void ANGeneratorDB::write(){
     // wait until all output data buffers are available
     while (!outputDataAvailable());
 
@@ -36,7 +36,7 @@ void ANGeneratorDBN::write(){
     SwapReadyOutputBuffers();
 }
 
-void ANGeneratorDBN::SwapReadyOutputBuffers(){
+void ANGeneratorDB::SwapReadyOutputBuffers(){
     for (auto bufPtr:outputBufferPtrs){
         if (bufPtr->IsTopVisited() and bufPtr->IsBottomVisited()){
             // lock output buffer for writing
@@ -50,10 +50,10 @@ void ANGeneratorDBN::SwapReadyOutputBuffers(){
     }
 }
 
-void ANGeneratorDBN::addInputBufferPtr(DoubleSharedCharBuffer *ptr) {
+void ANGeneratorDB::addInputBufferPtr(DoubleSharedCharBuffer *ptr) {
     inputBufferPtrs.push_back(ptr);
 }
 
-void ANGeneratorDBN::addOutputBufferPtr(DoubleSharedCharBuffer *ptr) {
+void ANGeneratorDB::addOutputBufferPtr(DoubleSharedCharBuffer *ptr) {
     outputBufferPtrs.push_back(ptr);
 }

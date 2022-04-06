@@ -10,10 +10,10 @@
 #include <thread>
 #include "../../../types.h"
 
-int ANTranslatorSB::run(int runs){
+int ANTranslatorSB::run(int runs, int execDelay, int rwDelay){
     // create generator and receiver processes
-    ANGeneratorSB generator = ANGeneratorSB("generator", animalNames, runs, 1);
-    ANReceiverSB receiver = ANReceiverSB("receiver", animalNames, runs,1);
+    ANGeneratorSB generator = ANGeneratorSB("generator", animalNames, runs, execDelay,rwDelay);
+    ANReceiverSB receiver = ANReceiverSB("receiver", animalNames, runs,execDelay,rwDelay);
     // create and assign shared buffer
     SharedCharBuffer sharedBuffer = SharedCharBuffer("buffer", 10);
     generator.addOutputBufferPtr(&sharedBuffer);

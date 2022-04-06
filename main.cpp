@@ -3,7 +3,8 @@
 #include "types.h"
 #include "example_apps/simple/SimpleExamples.h"
 #include "example_apps/animal_name_translator/single_buf/ANTranslatorSB.h"
-#include "example_apps/animal_name_translator/double_buf_nested/ANTranslatorDBN.h"
+#include "example_apps/animal_name_translator/double_buf/ANTranslatorDB.h"
+#include "example_apps/animal_name_translator/comparison/ANComparison.h"
 
 /*********************/
 /** Main */
@@ -14,23 +15,31 @@ int main() {
     // SimpleExamples::allocateBufferToTwoProc();
     // SimpleExamples::runProcessesInThreads();
     // SimpleExamples::readAndWriteToSharedCharBuffer();
-
-    // SimpleExamples::readAndWriteToDoubleSharedCharBuffer();
     // SimpleExamples::createEmptySharedCharBuffer();
     // SimpleExamples::readAndWriteToDoubleNestedCharBuffer();
 
+    // ************************
     // run ANTranslator example
+    int runs = 10;
+    int execDelayS = 0;
+    int rwDelayS = 1;
+
     /**
     // single-buffer
-    ANTranslatorSB app = ANTranslatorSB();
+    ANTranslatorSB appSB = ANTranslatorSB();
     // app.printAnimals();
-    app.run(2);
-    */
+    appSB.run(runs, execDelayS, rwDelayS);
+     */
 
-    // double-buffer (nested)
-    ANTranslatorDBN app = ANTranslatorDBN();
+    /**
+    // double-buffer
+    ANTranslatorDB app = ANTranslatorDB();
     // app.printAnimals();
-    app.run(10);
+    app.run(runs, execDelayS, rwDelayS);
+     */
+
+    // comparison
+    ANComparison::compareTimeSingleAndDoubleBuf(runs, execDelayS, rwDelayS);
 
     return 0;
 }

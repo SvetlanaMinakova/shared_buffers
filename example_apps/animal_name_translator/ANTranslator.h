@@ -11,7 +11,7 @@
 class ANTranslator {
 public:
     // abstract function run represents specific application implementation
-    virtual int run(int runs) = 0;
+    virtual int run(int runs, int execDelay, int rwDelay) = 0;
     void printAnimals();
     std::map<std::string, std::string> animalNames = {{"Cat", "Kat"},
                                                             {"Dog", "Hond"},

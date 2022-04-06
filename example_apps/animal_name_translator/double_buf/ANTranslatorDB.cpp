@@ -2,18 +2,18 @@
 // Created by svetlana on 01/04/2022.
 //
 
-#include "ANTranslatorDBN.h"
-#include "ANGeneratorDBN.h"
-#include "ANReceiverDBN.h"
+#include "ANTranslatorDB.h"
+#include "ANGeneratorDB.h"
+#include "ANReceiverDB.h"
 #include "../../../buffers/DoubleSharedCharBuffer.h"
 #include <iostream>
 #include <thread>
 #include "../../../types.h"
 
-int ANTranslatorDBN::run(int runs) {
+int ANTranslatorDB::run(int runs, int execDelay, int rwDelay) {
     // create generator and receiver processes
-    ANGeneratorDBN generator = ANGeneratorDBN("generator", animalNames, runs, 1);
-    ANReceiverDBN receiver = ANReceiverDBN("receiver", animalNames, runs,1);
+    ANGeneratorDB generator = ANGeneratorDB("generator", animalNames, runs, execDelay, rwDelay);
+    ANReceiverDB receiver = ANReceiverDB("receiver", animalNames, runs, execDelay, rwDelay);
     // create and assign shared buffer
     DoubleSharedCharBuffer sharedBuffer = DoubleSharedCharBuffer("buffer", 10);
     // needed to perform the first swap, when swap condition = top is visited and bottom is visited
