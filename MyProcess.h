@@ -99,7 +99,7 @@ bool MyProcess<T>::inputDataAvailable(){
 template<class T>
 bool MyProcess<T>::inputBuffersFull() {
     for (auto bufPtr:inputBufferPtrs){
-        if (!bufPtr->StoredTokens() == bufPtr->size)
+        if (!bufPtr->IsFull())
             return false;
     }
     return true;

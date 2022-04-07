@@ -44,7 +44,7 @@ SingleSharedBuffer<T>::~SingleSharedBuffer() {
 
 template<class T>
 void SingleSharedBuffer<T>::Read(T *data_dst, int data_tokens, int start_token) {
-    if ((start_token + data_tokens) >= size)
+    if ((start_token + data_tokens) > size)
         throw BufferException("Cannot read from buffer: out of boundaries!");
 
     for (int i=0; i<data_tokens; i++) {

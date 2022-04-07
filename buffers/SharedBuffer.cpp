@@ -34,7 +34,7 @@ void SharedBuffer::WriteSim(int data_tokens) {
 }
 
 bool SharedBuffer::IsFull() {
-    bool full = this->tokens >= this->size;
+    bool full = this->tokens == this->size;
     return full;
 }
 

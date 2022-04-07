@@ -4,6 +4,7 @@
 
 #include "NumArrayGeneratorSB.h"
 #include <cstdlib>
+#include <iostream>
 
 // generator does not do any reading
 void NumArrayGeneratorSB::read() {}
@@ -26,7 +27,9 @@ void NumArrayGeneratorSB::write() {
         auto lock = bufPtr->lock_for_updates();
         // delay writing
         delay(rwDelay*1000);
+        //std::cout<<"write "<<productionRate<<" tokens to "<<bufPtr->name<<std::endl;
         bufPtr->Write(outputData, productionRate);
+        //std::cout<<"buf size after writing "<<bufPtr->size<<std::endl;
     }
 }
 
