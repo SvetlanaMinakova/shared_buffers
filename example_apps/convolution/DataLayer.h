@@ -16,7 +16,8 @@ public:
     int imC;
 
     unsigned long countImages();
-    void addImage(float** image);
+    void addImage(float* image);
+    void printImages();
 
     DataLayer(int imH, int imW, int imC, int runs=1, int execDelay=0, int rwDelay=0): MyProcess<float>("dataLayer", runs, execDelay, rwDelay) {
         this->imH = imH;
@@ -27,8 +28,8 @@ public:
     };
 
 protected:
-    float** curImage = nullptr;
-    std::vector<float**> images;
+    float* curImage = nullptr;
+    std::vector<float*> images;
 };
 
 

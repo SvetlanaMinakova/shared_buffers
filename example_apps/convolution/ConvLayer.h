@@ -37,7 +37,7 @@ public:
     };
 
 protected:
-    float** kernel;
+    float* kernel;
 };
 
 
