@@ -6,6 +6,9 @@
 #include "example_apps/animal_name_translator/double_buf/ANTranslatorDB.h"
 #include "example_apps/animal_name_translator/comparison/ANComparison.h"
 #include "example_apps/convolution/ConvExample.h"
+#include "example_apps/num_averager/single_buffer/NumAveragerSB.h"
+#include "example_apps/num_averager/single_buffer/NumArrayGeneratorSB.h"
+#include "example_apps/num_averager/single_buffer/NumArrayAveragerSB.h"
 
 /*********************/
 /** Main */
@@ -45,9 +48,19 @@ int main() {
 
     // ************************
     // run convolution example
-    ConvExample convExample = ConvExample(3,5,5,2,3,3,1,2,1,0);
-    convExample.run(3);
+    //ConvExample convExample = ConvExample(3,5,5,2,3,3,1,2,1,0);
+    //convExample.run(3);
     //convExample.printImages();
+
+    // ************************
+    // run NumAveragerSB example
+    NumAveragerSB numAveragerSB = NumAveragerSB(10,2,1,0);
+    numAveragerSB.run();
+
+    //NumArrayGeneratorSB generatorSb = NumArrayGeneratorSB(10,2,0,0);
+    //NumArrayGeneratorSB generatorSb = NumArrayGeneratorSB(0,0,0,0);
+    //NumArrayAveragerSB averagerSb = NumArrayAveragerSB(10,2,0,0);
+    //NumArrayAveragerSB averagerSb = NumArrayAveragerSB(0,0,0,0);
 
     return 0;
 }

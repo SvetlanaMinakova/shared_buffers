@@ -14,6 +14,7 @@ public:
     // Typed methods
     void Read(T* data_dst, int data_tokens, int start_token=0);
     void Write(T* new_data, int data_tokens);
+    void Write(T data_token);
     void PrintData() override;
 
     // constructor and destructor
@@ -64,12 +65,23 @@ void SingleSharedBuffer<T>::Write(T *new_data, int data_tokens) {
 }
 
 template<class T>
+void SingleSharedBuffer<T>::Write(T data_token) {
+    if (FreeTokens() < 1)
+        throw BufferException("Cannot write to buffer: not enough free space!");
+
+    this->data[tokens+1] = data_token;
+    this->tokens ++;
+}
+
+template<class T>
 void SingleSharedBuffer<T>::PrintData() {
     for (int i=0;i<this->tokens;i++){
         char elem = data[i];
         std::cout << elem;
     }
 }
+
+
 
 
 #endif //SHARED_BUFFERS_SINGLESHAREDBUFFER_H

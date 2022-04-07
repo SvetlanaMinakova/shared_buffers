@@ -33,7 +33,9 @@ public:
     void printInputBufferNames();
     void printOutputBufferNames();
     virtual bool inputDataAvailable();
+    virtual bool inputBuffersFull();
     virtual bool outputDataAvailable();
+    virtual bool outputBuffersFree();
     int productionRate;
     int consumptionRate;
 
@@ -95,9 +97,27 @@ bool MyProcess<T>::inputDataAvailable(){
 }
 
 template<class T>
+bool MyProcess<T>::inputBuffersFull() {
+    for (auto bufPtr:inputBufferPtrs){
+        if (!bufPtr->StoredTokens() == bufPtr->size)
+            return false;
+    }
+    return true;
+}
+
+template<class T>
 bool MyProcess<T>::outputDataAvailable(){
     for (auto bufPtr:outputBufferPtrs){
         if (bufPtr->FreeTokens() < productionRate)
+            return false;
+    }
+    return true;
+}
+
+template<class T>
+bool MyProcess<T>::outputBuffersFree() {
+    for (auto bufPtr:outputBufferPtrs){
+        if (!bufPtr->IsEmpty())
             return false;
     }
     return true;
@@ -163,7 +183,5 @@ void MyProcess<T>::main(void *vpar) {
         write();
     }
 }
-
-
 
 #endif //SHARED_BUFFERS_MYPROCESS_H

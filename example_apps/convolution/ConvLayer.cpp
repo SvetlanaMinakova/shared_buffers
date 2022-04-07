@@ -3,3 +3,7 @@
 //
 
 #include "ConvLayer.h"
+
+void ConvLayer::setKernel(float *kernel) {
+    this->kernel = kernel;
+}

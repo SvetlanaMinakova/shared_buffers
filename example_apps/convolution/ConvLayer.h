@@ -20,6 +20,7 @@ public:
     int kC;
 
     int stride;
+    void setKernel(float* kernel);
 
     ConvLayer(int imH, int imW, int imC,
               int kH, int kW, int kC, int stride=1,

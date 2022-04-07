@@ -1,4 +1,5 @@
 # Convolution
+**NOTE: example is unfinished!**
 This example performs discrete convolution, simulating work of a Convolutional layers in a [Convolutional Neural Network](https://en.wikipedia.org/wiki/Convolutional_neural_network).
 The example application has two processes, each defined as an object of a special class, inherited from *MyProcess* class:
 * *dataLayer* process (see *DataLayer* class and classes inherited from this class)

@@ -9,17 +9,10 @@
  * output data buffers are available when they are empty
  * @return true, if output data buffers are available and false otherwise
  * */
-bool ANGeneratorSB::outputDataAvailable(){
-    for (auto bufPtr:outputBufferPtrs){
-        if (!bufPtr->IsEmpty())
-            return false;
-    }
-    return true;
-}
 
 void ANGeneratorSB::write(){
     //wait until all output data is available
-    while (!outputDataAvailable());
+    while (!outputBuffersFree());
 
     for (auto bufPtr:outputBufferPtrs){
         //lock output buffer for writing
