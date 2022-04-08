@@ -5,10 +5,8 @@
 #include "example_apps/animal_name_translator/single_buf/ANTranslatorSB.h"
 #include "example_apps/animal_name_translator/double_buf/ANTranslatorDB.h"
 #include "example_apps/animal_name_translator/comparison/ANComparison.h"
-#include "example_apps/convolution/ConvExample.h"
 #include "example_apps/num_averager/single_buffer/NumAveragerSB.h"
-#include "example_apps/num_averager/single_buffer/NumArrayGeneratorSB.h"
-#include "example_apps/num_averager/single_buffer/NumArrayAveragerSB.h"
+#include "example_apps/num_averager/double_buffer/NumAveragerDB.h"
 
 /*********************/
 /** Main */
@@ -54,13 +52,13 @@ int main() {
 
     // ************************
     // run NumAveragerSB example
-    NumAveragerSB numAveragerSB = NumAveragerSB(10,2,1,0);
-    numAveragerSB.run();
+    //NumAveragerSB numAveragerSB = NumAveragerSB(10,2,1,0);
+    //numAveragerSB.run();
 
-    //NumArrayGeneratorSB generatorSb = NumArrayGeneratorSB(10,2,0,0);
-    //NumArrayGeneratorSB generatorSb = NumArrayGeneratorSB(0,0,0,0);
-    //NumArrayAveragerSB averagerSb = NumArrayAveragerSB(10,2,0,0);
-    //NumArrayAveragerSB averagerSb = NumArrayAveragerSB(0,0,0,0);
+    // ************************
+    // run NumAveragerDB example
+    NumAveragerDB numAveragerDB = NumAveragerDB(10,2,1,0);
+    numAveragerDB.run();
 
     return 0;
 }

@@ -20,7 +20,6 @@ public:
 protected:
     int arrayLen;
     float* outputData = nullptr;
-    int maxValue=100;
     float startValue=0.0;
 };
 

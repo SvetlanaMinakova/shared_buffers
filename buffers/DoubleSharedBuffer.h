@@ -31,6 +31,14 @@ public:
         bottomPtr = &buf2;
     };
 
+    DoubleSharedBuffer(): SharedBuffer(){
+        topPtr = nullptr;
+        bottomPtr = nullptr;
+    };
+
+    void init(std::string name, int size) override;
+
+
     void ReadSim(int data_tokens, int start_token=0) override;
     void WriteSim(int data_tokens) override;
     void Read(T* data_dst, int data_tokens, int start_token=0);
@@ -46,6 +54,7 @@ public:
     void setBottomVisited();
     void setBottomUnvisited();
     bool IsTopEmpty();
+    bool IsBottomFull();
     bool IsTopVisited();
     bool IsBottomVisited();
 
@@ -57,6 +66,14 @@ private:
     SingleSharedBuffer<T> buf2 = SingleSharedBuffer<T>();
 };
 
+template<class T>
+void DoubleSharedBuffer<T>::init(std::string name, int size) {
+    SharedBuffer::init(name, size);
+    buf1.init("top", size);
+    buf2.init("bottom",size);
+    topPtr = &buf1;
+    bottomPtr = &buf2;
+}
 
 template<class T>
 void DoubleSharedBuffer<T>::Read(T *data_dst, int data_tokens, int start_token) {
@@ -151,6 +168,11 @@ bool DoubleSharedBuffer<T>::IsBottomVisited() {
 template<class T>
 bool DoubleSharedBuffer<T>::ReadyForSwap() {
     return topPtr->IsVisited() && bottomPtr->IsVisited();
+}
+
+template<class T>
+bool DoubleSharedBuffer<T>::IsBottomFull() {
+    return bottomPtr->IsFull();
 }
 
 
