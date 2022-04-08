@@ -3,9 +3,13 @@
 //
 
 #include "NumAveragerDB.h"
+#include <chrono>
 
 int NumAveragerDB::run() {
     std::cout<<"Run num averager (double buffer)"<<std::endl;
+    // timer
+    clock_t start, end;
+
     // init
     generator.init();
     averager.init();
@@ -23,6 +27,9 @@ int NumAveragerDB::run() {
     threadInfo[0].core_id = 0;
     threadInfo[1].core_id = 1;
 
+    //start timer
+    start = clock(); //start timer
+
     // run threads
     //Create and run posix threads
     std::thread my_thread0(&NumArrayGeneratorDB::main, &generator, &threadInfo[0]);
@@ -31,6 +38,12 @@ int NumAveragerDB::run() {
     //join posix threads
     my_thread0.join();
     my_thread1.join();
+
+    //stop timer
+    end = clock();
+    // compute delay
+    float execTime = ((float) (end - start))/CLOCKS_PER_SEC;
+    printf ("exec time: %0.8f sec \n", execTime);
 
     // delete pthread parameters
     free(threadInfo);

@@ -45,19 +45,20 @@ int main() {
     //ANComparison::compareTimeSingleAndDoubleBuf(runs, execDelayS, rwDelayS);
 
     // ************************
-    // run convolution example
-    //ConvExample convExample = ConvExample(3,5,5,2,3,3,1,2,1,0);
-    //convExample.run(3);
-    //convExample.printImages();
+    // run NumAverager example
 
-    // ************************
-    // run NumAveragerSB example
-    //NumAveragerSB numAveragerSB = NumAveragerSB(10,2,1,0);
-    //numAveragerSB.run();
+    int arrayLen = 10;
+    int runs = 10;
+    int execDelayS = 0;
+    int rwDelayS = 1;
 
-    // ************************
-    // run NumAveragerDB example
-    NumAveragerDB numAveragerDB = NumAveragerDB(10,2,1,0);
+    //single buffer
+    NumAveragerSB numAveragerSB = NumAveragerSB(arrayLen,runs,execDelayS,rwDelayS);
+    numAveragerSB.run();
+    std::cout<<std::endl<<"*************************"<<std::endl;
+
+    //double buffer
+    NumAveragerDB numAveragerDB = NumAveragerDB(arrayLen, runs,execDelayS,rwDelayS);
     numAveragerDB.run();
 
     return 0;
